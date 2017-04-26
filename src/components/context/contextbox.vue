@@ -18,8 +18,8 @@
     .comtextbox {
         width: 100%;
         height: ~'calc(100% - 44px)';
-        background-color: #ccc;
-        overflow: hidden;
+        /*background-color: #ccc;*/
+        overflow: auto;
     }
 
 

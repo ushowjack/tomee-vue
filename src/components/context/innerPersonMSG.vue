@@ -1,7 +1,5 @@
 <template>
-    <div class="table">
-        <t-table></t-table>
-    </div>
+    <t-table></t-table>
 </template>
 
 <script type="text/ecmascript-6">
@@ -14,9 +12,5 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-    .table{
-        width: 90%;
-        margin: 20px auto;
 
-    }
 </style>

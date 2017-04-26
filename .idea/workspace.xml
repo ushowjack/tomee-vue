@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c9485c8-a0df-4399-9019-d44d563b0df7" name="默认" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/table/search.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/table/table.vue" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/table/button.vue" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/table/pagination.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/App.vue" afterPath="$PROJECT_DIR$/src/App.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/context/contextbox.vue" afterPath="$PROJECT_DIR$/src/components/context/contextbox.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/sidebar/sidebar.vue" afterPath="$PROJECT_DIR$/src/components/sidebar/sidebar.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/router/index.js" afterPath="$PROJECT_DIR$/src/router/index.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/context/breadcrumb.vue" afterPath="$PROJECT_DIR$/src/components/breadcrumb/breadcrumb.vue" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/sidebar/secondItem.vue" afterPath="$PROJECT_DIR$/src/components/context/innerPersonMSG.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/context/innerPersonMSG.vue" afterPath="$PROJECT_DIR$/src/components/context/innerPersonMSG.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/table/search.vue" afterPath="$PROJECT_DIR$/src/components/table/search.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/table/table.vue" afterPath="$PROJECT_DIR$/src/components/table/table.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,20 +26,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="6" column="39" lean-forward="true" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="App.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/App.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1311">
+            <state relative-caret-position="621">
               <caret line="57" column="41" lean-forward="false" selection-start-line="57" selection-start-column="41" selection-end-line="57" selection-end-column="41" />
               <folding>
                 <element signature="e#379#431#0" expanded="true" />
@@ -53,7 +41,7 @@
       <file leaf-file-name="sidebar.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/sidebar/sidebar.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
+            <state relative-caret-position="0">
               <caret line="9" column="47" lean-forward="true" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
               <folding />
             </state>
@@ -63,7 +51,7 @@
       <file leaf-file-name="sidebarItem.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/sidebar/sidebarItem.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-864">
+            <state relative-caret-position="-54">
               <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
               <folding />
             </state>
@@ -82,14 +70,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="table.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/table/table.vue">
+      <file leaf-file-name="contextbox.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/context/contextbox.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="46">
-              <caret line="2" column="29" lean-forward="false" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
-              <folding>
-                <element signature="n#style#0;n#el-table#0;n#template#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="483">
+              <caret line="21" column="23" lean-forward="true" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="button.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/table/button.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="69">
+              <caret line="3" column="18" lean-forward="false" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -97,38 +93,42 @@
       <file leaf-file-name="search.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/table/search.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="423">
+              <caret line="26" column="13" lean-forward="false" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="contextbox.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/context/contextbox.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="innerPersonMSG.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="innerPersonMSG.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/context/innerPersonMSG.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+            <state relative-caret-position="46">
+              <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="breadcrumb.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/breadcrumb/breadcrumb.vue">
+      <file leaf-file-name="table.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/table/table.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="26">
-              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="31" selection-end-column="9" />
+            <state relative-caret-position="623">
+              <caret line="152" column="36" lean-forward="false" selection-start-line="152" selection-start-column="36" selection-end-line="152" selection-end-column="36" />
+              <folding>
+                <element signature="n#style#0;n#el-table#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="e#1155#1189#0" expanded="true" />
+                <element signature="e#1750#3021#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pagination.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/table/pagination.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="34" column="32" lean-forward="false" selection-start-line="34" selection-start-column="32" selection-end-line="34" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -168,11 +168,14 @@
         <option value="$PROJECT_DIR$/src/components/sidebar/sidebarItem.vue" />
         <option value="$PROJECT_DIR$/src/components/sidebar/sidebar.vue" />
         <option value="$PROJECT_DIR$/src/router/index.js" />
-        <option value="$PROJECT_DIR$/src/components/context/contextbox.vue" />
-        <option value="$PROJECT_DIR$/src/components/table/table.vue" />
         <option value="$PROJECT_DIR$/node_modules/element-ui/lib/theme-default/index.css" />
-        <option value="$PROJECT_DIR$/src/App.vue" />
         <option value="$PROJECT_DIR$/src/components/context/innerPersonMSG.vue" />
+        <option value="$PROJECT_DIR$/src/components/table/button.vue" />
+        <option value="$PROJECT_DIR$/src/components/table/search.vue" />
+        <option value="$PROJECT_DIR$/src/App.vue" />
+        <option value="$PROJECT_DIR$/src/components/context/contextbox.vue" />
+        <option value="$PROJECT_DIR$/src/components/table/pagination.vue" />
+        <option value="$PROJECT_DIR$/src/components/table/table.vue" />
       </list>
     </option>
   </component>
@@ -397,15 +400,15 @@
       <workItem from="1493126202443" duration="296000" />
       <workItem from="1493128466415" duration="36000" />
       <workItem from="1493169198871" duration="211000" />
-      <workItem from="1493170998674" duration="21665000" />
+      <workItem from="1493170998674" duration="29958000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48847000" />
+    <option name="totallyTimeSpent" value="57140000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1936" height="1056" extended-state="1" />
+    <frame x="-8" y="0" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18756586" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -455,24 +458,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/router/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" column="60" lean-forward="false" selection-start-line="2" selection-start-column="60" selection-end-line="2" selection-end-column="60" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/context/contextbox.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" column="28" lean-forward="false" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/breadcrumb/breadcrumb.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
@@ -755,32 +740,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/table/search.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/router/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/sidebar/sidebar.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="47" lean-forward="true" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/element-ui/lib/theme-default/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="341">
@@ -808,27 +767,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/table/table.vue">
+    <entry file="file://$PROJECT_DIR$/src/components/sidebar/sidebar.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" column="29" lean-forward="false" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
-          <folding>
-            <element signature="n#style#0;n#el-table#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/sidebar/sidebarItem.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-864">
-          <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+        <state relative-caret-position="0">
+          <caret line="9" column="47" lean-forward="true" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1311">
+        <state relative-caret-position="621">
           <caret line="57" column="41" lean-forward="false" selection-start-line="57" selection-start-column="41" selection-end-line="57" selection-end-column="41" />
           <folding>
             <element signature="e#379#431#0" expanded="true" />
@@ -836,19 +785,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/table/pagination.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="34" column="32" lean-forward="false" selection-start-line="34" selection-start-column="32" selection-end-line="34" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/sidebar/sidebarItem.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-54">
+          <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/context/contextbox.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        <state relative-caret-position="483">
+          <caret line="21" column="23" lean-forward="true" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/table/button.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="18" lean-forward="false" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/table/search.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="26" column="13" lean-forward="false" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/context/innerPersonMSG.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+        <state relative-caret-position="46">
+          <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/table/table.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="623">
+          <caret line="152" column="36" lean-forward="false" selection-start-line="152" selection-start-column="36" selection-end-line="152" selection-end-column="36" />
+          <folding>
+            <element signature="n#style#0;n#el-table#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#1155#1189#0" expanded="true" />
+            <element signature="e#1750#3021#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

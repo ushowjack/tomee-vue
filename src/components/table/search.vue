@@ -1,11 +1,31 @@
 <template>
+    <div class="t-search">
+        <el-input
+                placeholder="请输入关键词"
+                icon="search"
+                v-model="search"
+                :maxlength="10"
+                :on-icon-click="handleIconClick">
+        </el-input>
+    </div>
 
 </template>
 
-<script type="text/ecmascript-6">
+<script>
     export default {
-        props: [],
-        components: {}
+        data() {
+            return {
+                search: ''
+            }
+        },
+        methods: {
+            handleIconClick(ev) {
+                console.log(ev);
+            },
+            hello(){
+                alert("hello!");
+            }
+        }
     }
 </script>
 
