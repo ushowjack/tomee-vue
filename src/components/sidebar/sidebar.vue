@@ -21,7 +21,6 @@
                         children: [
                             {name: '内部人员信息管理'},
                             {name: '系统用户管理'},
-                            {name: '人员借入借出管理'},
                             {name: '退伍人员管理'},
                         ],
                     },
@@ -38,68 +37,16 @@
                             {name: '岗亭信息管理'},
                             {name: '站岗排班管理'},
                             {name: '站岗记录管理'},
-                            {name: '视频异常记录'},
-                        ],
-                    },
-                    {
-                        name: '访客管理',
-                        children: [
-                            {name: '预约来访信息管理'},
-                            {name: '来访信息记录管理'},
                         ],
                     },
                     {
                         name: '考勤管理',
-                        children: [
-                            {name: '打卡考勤管理'},
-                            {name: '休假申请管理'},
-                        ],
+                        children: {name: '休假申请管理'},
                     },
-                    {
-                        name: '手环管理',
-                        children: [
-                            {name: '手环信息管理'},
-                            {name: '手环使用记录管理'},
-                            {name: '手环维修管理'},
-                        ],
-                    },
-                    {
-                        name: '车辆管理',
-                        children: [
-                            {name: '车辆信息管理'},
-                            {name: '车辆进出记录管理'},
-                        ],
-                    },
-                    {
-                        name: '摄像头管理',
-                        children: {name: '摄像头信息管理'},
-                    },
-                    {
-                        name: '视频异常管理',
-                        children: {name: '人脸识别管理'},
-                    },
-                    {
-                        name: '权限管理',
-                    },
+
                     {
                         name: '日志管理',
-                        children: [
-                            {name: '用户操作日志管理'},
-                            {name: '系统日志管理'},
-                        ],
-                    },
-                    {
-                        name: '其他管理',
-                        children: [
-                            {name: '性质信息管理'},
-                            {name: '职务信息管理'},
-                            {name: '警衔信息管理'},
-                            {name: '营区信息管理'},
-                            {name: '大门信息管理'},
-                            {name: '组织机构信息管理'},
-                            {name: '上下排班时段管理'},
-                            {name: '站岗排班时段管理'},
-                        ],
+                        children: {name: '用户操作日志管理'},
                     },
                 ],
                 url: "#/"
@@ -118,15 +65,16 @@
     .side-bar {
         width: 350px;
         min-width: 350px;
-        height: 100%;
+        height: ~'calc(100% - 153px)';
         position: fixed;
-        overflow-y: scroll;
-        top: @header-height;
+        overflow-x: hidden;
+        overflow-y: auto;
         background: #353b49;
     }
 
     //主菜单样式
     .mainmenu {
+        height: 100%;
         .reset-ul();
         .mainlist {
             width: 100%;

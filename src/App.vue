@@ -5,7 +5,8 @@
             <t-sidebar></t-sidebar>
             <div class="side-context">
                 <t-breadcrumb></t-breadcrumb>
-                <router-view></router-view>
+                <t-contextbox></t-contextbox>
+                <!--<router-view></router-view>-->
             </div>
         </div>
     </div>
@@ -14,7 +15,8 @@
 <script>
     import THeader from "./components/header/header.vue"
     import TSidebar from "./components/sidebar/sidebar.vue"
-    import TBreadcrumb from "./components/context/breadcrumb.vue"
+    import TBreadcrumb from "./components/breadcrumb/breadcrumb.vue"
+    import TContextbox from "./components/context/contextbox.vue"
 
 
     export default {
@@ -22,7 +24,8 @@
         components:{
             THeader,
             TSidebar,
-            TBreadcrumb
+            TBreadcrumb,
+            TContextbox
         }
     }
 </script>
@@ -53,7 +56,6 @@
             top: 0;
             right: 0;
             width: ~'calc(100% - 350px)';
-            /*width: 100%;*/
             height: 100%;
         }
         .search{
