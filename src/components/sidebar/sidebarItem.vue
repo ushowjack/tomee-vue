@@ -1,6 +1,6 @@
 <template>
     <li class="mainlist">
-        <a :href="'#/' + encodeURIComponent(model.name)"
+        <a :href="url"
            :class="{bold: isFolder}"
            @click="toggle">
             {{model.name}}
@@ -12,6 +12,7 @@
                     class="sublist"
                     v-for="(model,index) in model.children"
                     :key="index"
+                    :url="url + '/' + model.name"
                     :model="model">
             </sidebar-item>
         </ul>
@@ -22,7 +23,8 @@
     export default {
         name: "sidebarItem",
         props: {
-            model: Object
+            model: Object,
+            url: String
         },
         data(){
             return {
@@ -45,7 +47,36 @@
     }
 </script>
 <style lang="less" rel="stylesheet/less">
-    li {
-        color: #fff;
+    @import "../../common/mixins/variable";
+    @import "../../common/mixins/opacity";
+    @import "../../common/mixins/reset-ul";
+
+    //子菜单样式
+    .submenu {
+        .reset-ul();
+        .sublist {
+            width: 100%;
+            & > a {
+                display: block;
+                text-align: left;
+                width: ~"calc(100% - @{side-bar-padding})";
+                height: @mainmenu-item-height;
+                line-height: @mainmenu-item-height;
+                padding-left: @mainmenu-item-height + 20px;
+                color: #ffffff;
+                font-size: 16px;
+                .opacity(0.8);
+                transition: 0.3s all;
+                background: darken(#353b49, 10%);
+                &:hover {
+                    background: darken(#353b49, 5%);
+                }
+                &.active {
+                    background: darken(#353b49, 10%);
+                    .opacity(1);
+                }
+            }
+        }
     }
+
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="side-bar">
         <ul class="mainmenu">
-            <sidebar-item v-for="(item,index) in sidebar" :key="index" :model="item">
+            <sidebar-item v-for="(item,index) in sidebar" :key="index" :model="item" :url="url + item.name">
             </sidebar-item>
         </ul>
     </div>
@@ -101,7 +101,8 @@
                             {name: '站岗排班时段管理'},
                         ],
                     },
-                ]
+                ],
+                url: "#/"
             }
         }
     }
@@ -112,7 +113,6 @@
     @import "../../common/mixins/variable";
     @import "../../common/mixins/opacity";
     @import "../../common/mixins/reset-ul";
-    @import "../../common/mixins/show";
 
     //侧边栏主框架
     .side-bar {
@@ -155,32 +155,5 @@
         }
     }
 
-    //子菜单样式
-    .submenu {
-        .reset-ul();
-        .sublist {
-            width: 100%;
-            & > a {
-                display: block;
-                text-align: left;
-                width: ~"calc(100% - @{side-bar-padding})";
-                height: @mainmenu-item-height;
-                line-height: @mainmenu-item-height;
-                padding-left: @mainmenu-item-height;
-                color: #ffffff;
-                font-size: 18px;
-                .opacity(0.8);
-                transition: 0.3s all;
-                background: darken(#353b49, 10%);
-                &:hover {
-                    background: darken(#353b49, 5%);
-                }
-                &.active {
-                    background: darken(#353b49, 10%);
-                    .opacity(1);
-                }
-            }
-        }
-    }
 
 </style>

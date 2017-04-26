@@ -3,7 +3,10 @@
         <t-header></t-header>
         <div class="context">
             <t-sidebar></t-sidebar>
-            <router-view></router-view>
+            <div class="side-context">
+                <t-breadcrumb></t-breadcrumb>
+                <router-view></router-view>
+            </div>
         </div>
     </div>
 </template>
@@ -11,12 +14,15 @@
 <script>
     import THeader from "./components/header/header.vue"
     import TSidebar from "./components/sidebar/sidebar.vue"
+    import TBreadcrumb from "./components/context/breadcrumb.vue"
+
 
     export default {
         name: 'app',
         components:{
             THeader,
-            TSidebar
+            TSidebar,
+            TBreadcrumb
         }
     }
 </script>
@@ -40,8 +46,7 @@
     .context{
         position: relative;
         max-width: 100%;
-        /*height: ~'calc(100% - 153px)';            */
-        height: 100%;
+        height: ~'calc(100% - 153px)';
         margin: 0 auto;
         .side-context{
             position: absolute;
@@ -54,6 +59,11 @@
         .search{
             float: right;
         }
+    }
+    .el-breadcrumb{
+        background-color: #f5f5f5;
+        padding: 15px;
+        font-size: @input-font-size;
     }
 
 </style>
