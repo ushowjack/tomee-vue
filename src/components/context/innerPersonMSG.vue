@@ -3,7 +3,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import TTable from "../table/table.vue"
+    import TTable from "../table/innerTable.vue"
     export default {
         components: {
             TTable

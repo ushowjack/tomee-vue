@@ -1,9 +1,13 @@
 <template>
     <div class="table-group">
-        <t-btn :btnData="btnData"></t-btn>
+        <div class="t-btn">
+            <el-button @click="deleteAllSelection">批量删除</el-button>
+            <el-button @click="addPerson = true">添加人员</el-button>
+            <el-button>批量添加</el-button>
+        </div>
         <t-search></t-search>
         <el-table
-                :data="personData"
+                :data="personMoreData"
                 border
                 tooltip-effect="dark"
                 style="width: 100%"
@@ -58,7 +62,7 @@
                 <template scope="scope">
                     <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="small">查看详情</el-button>
                     <el-button
-                            @click.native.prevent="deleteRow(scope.$index, personData)"
+                            @click.native.prevent="deleteRow(scope.$index, personMoreData)"
                             type="text"
                             size="small">
                         删除
@@ -209,6 +213,78 @@
             </div>
         </el-dialog>
 
+        <el-dialog
+                title="添加人员信息"
+                v-model="addPerson"
+                @close="resetForm('personData')"
+                size="tiny">
+            <div class="dialog-context"
+                 style="position: relative; padding: 20px;">
+                <el-form label-position="right"
+                         label-width="120px"
+                         :model="personData"
+                         ref="personData">
+                    <el-form-item label="姓名：">
+                        <el-input v-model="personData.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="证件号：">
+                        <el-input v-model="personData.pid"></el-input>
+                    </el-form-item>
+                    <el-form-item label="证件类型：">
+                        <el-select v-model="personData.pidtype" placeholder="请选择证件类型">
+                            <el-option label="身份证" value="身份证"></el-option>
+                            <el-option label="学生证" value="学生证"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="出生日期：">
+                        <el-input v-model="personData.birth"></el-input>
+                    </el-form-item>
+                    <el-form-item label="入伍时间：">
+                        <el-input v-model="personData.military"></el-input>
+                    </el-form-item>
+                    <el-form-item label="民族：">
+                        <el-input v-model="personData.nation"></el-input>
+                    </el-form-item>
+                    <el-form-item label="警衔：">
+                        <el-input v-model="personData.level"></el-input>
+                    </el-form-item>
+                    <el-form-item label="职务：">
+                        <el-input v-model="personData.duty"></el-input>
+                    </el-form-item>
+                    <el-form-item label="人员性质：">
+                        <el-input v-model="personData.property"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别：">
+                        <el-input v-model="personData.sex"></el-input>
+                    </el-form-item>
+                    <el-form-item label="籍贯：">
+                        <el-input v-model="personData.nativeplace"></el-input>
+                    </el-form-item>
+                    <el-form-item label="所属单位：">
+                        <el-input v-model="personData.department"></el-input>
+                    </el-form-item>
+                    <el-form-item label="人员当前状态：">
+                        <el-input v-model="personData.cpxondition"></el-input>
+                    </el-form-item>
+                    <el-form-item label="备注：">
+                        <el-input v-model="personData.remark"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <el-form slot="footer"
+                     class="dialog-footer">
+                <el-form-item>
+                    <el-button type="primary"
+                               @click="submitForm('personData')">
+                        提 交
+                    </el-button>
+                    <el-button @click="addPerson = false">
+                        取 消
+                    </el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
     </div>
 
 </template>
@@ -225,12 +301,14 @@
             TBtn,
             TPagination
         },
+
         data() {
             return {
                 curIdx: 0,
                 curRow: '',
                 changeMSG: false,
                 dialogVisible: false,
+                addPerson: false,
                 btnData: [
                     {
                         value: "批量删除"
@@ -242,64 +320,23 @@
                         value: "批量添加"
                     }
                 ],
-                personData: [
-                    {
-                        name: '王小虎',
-                        pid: 123154646148,
-                        sex: '男',
-                        duty: '码农',
-                        department: '桃木科技'
-                    },
-                    {
-                        name: '王小虎',
-                        pid: 123154646148,
-                        sex: '男',
-                        duty: '码农',
-                        department: '桃木科技'
-                    },
-                    {
-                        name: '王小虎',
-                        pid: 123154646148,
-                        sex: '男',
-                        duty: '码农',
-                        department: '桃木科技'
-                    },
-                    {
-                        name: '王小虎',
-                        pid: 123154646148,
-                        sex: '男',
-                        duty: '码农',
-                        department: '桃木科技'
-                    },
-                    {
-                        name: '王小虎',
-                        pid: 123154646148,
-                        sex: '男',
-                        duty: '码农',
-                        department: '桃木科技'
-                    },
-                    {
-                        name: '王小虎',
-                        pid: 123154646148,
-                        sex: '男',
-                        duty: '码农',
-                        department: '桃木科技'
-                    },
-                    {
-                        name: '王小虎',
-                        pid: 123154646148,
-                        sex: '男',
-                        duty: '码农',
-                        department: '桃木科技'
-                    },
-                    {
-                        name: '王小虎',
-                        pid: 123154646148,
-                        sex: '男',
-                        duty: '码农',
-                        department: '桃木科技'
-                    }
-                ],
+                personData: {
+                    'name': "",                      //姓名
+                    'pid': "",                      //证件号
+                    'pidtype': "",                     //证件类型
+                    'birth': "",                     //出生日期
+                    'military': "",                  //入伍时间
+                    'nation': "",                      //名族
+                    'level': "",                      //警衔
+                    'duty': "",                       //职务
+                    'property': "",                   //人员性质
+                    'sex': "",                         //性别
+                    'nativeplace': "",            //籍贯
+                    'department': "",            //所属单位
+                    'cpxondition': "",              //人员当前状态
+                    'picturepath': "",          //人员照片
+                    'remark': ""                 //备注
+                },
                 personMoreData: [
                     {
                         'name': "sfgg",                      //姓名
@@ -389,9 +426,23 @@
                 ],
                 multipleSelection: []
             }
-        },
+        }
+        ,
         methods: {
-            handleSelectionChange(val) {
+            deleteAllSelection(){
+                let _self = this;
+//              获取剩下的值
+                this.personMoreData = this.personMoreData.filter(function (currentValue, currentIdx) {
+                    let getItem = true;
+                    _self.multipleSelection.forEach(function (val, idx) {
+                        if (currentValue === val) {
+                            getItem = false;
+                        }
+                    })
+                    return getItem;
+                });
+            },
+            handleSelectionChange(val){
                 this.multipleSelection = val;
             },
 //          control the modal show
@@ -401,8 +452,20 @@
                 this.dialogVisible = true;
                 this.changeMSG = false;
             },
-            deleteRow(index, rows) {
+            deleteRow(index, rows){
                 rows.splice(index, 1);
+            },
+            resetForm(formName){
+                this.addPerson = false;
+//                解决在未知情况下无法获取Fields
+                console.log(this.$refs[formName]);
+
+                for (let val in this.$refs[formName].model) {
+                    this.personData[val] = "";
+                }
+            },
+            submitForm(formName){
+                this.addPerson = false;
             }
         }
     }
@@ -494,11 +557,20 @@
     }
 
     .el-form-item {
-        margin-bottom: 0 !important;
         .el-form-item__content {
             text-align: left;
             .el-select {
                 width: 100%;
+            }
+            button {
+                float: right;
+                padding: 10px;
+                margin: 0 10px;
+                span {
+                    line-height: 14px;
+                    width: 100%;
+                    padding: 0;
+                }
             }
         }
         .el-form-item__label {
