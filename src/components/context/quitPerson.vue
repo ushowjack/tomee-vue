@@ -1,18 +1,17 @@
 <template>
     <div class="table-group">
         <div class="t-btn">
-            <el-button @click="deleteAllSelection('personMoreData')">批量删除</el-button>
-            <el-button @click="addPerson = true">添加人员</el-button>
+            <el-button @click="deleteAllSelection('userData')">批量删除</el-button>
+            <el-button @click="addUser = true">添加退伍人员</el-button>
             <el-button>批量添加</el-button>
         </div>
         <t-search></t-search>
         <el-table
-                :data="personMoreData"
+                :data="userData"
                 border
                 tooltip-effect="dark"
                 style="width: 100%"
-                @selection-change="handleSelectionChange"
-        >
+                @selection-change="handleSelectionChange">
             <el-table-column
                     type="selection"
                     width="55">
@@ -25,21 +24,19 @@
                     :sortable=true
                     header-align="center"
                     prop="name"
-                    label="姓名"
-                    width="120">
+                    label="姓名">
             </el-table-column>
             <el-table-column
                     :sortable=true
                     header-align="center"
-                    prop="pid"
-                    label="证件号">
+                    prop="retiredtime"
+                    label="退伍时间">
             </el-table-column>
             <el-table-column
                     :sortable=true
                     header-align="center"
-                    prop="sex"
-                    width="120"
-                    label="性别">
+                    prop="retiredreason"
+                    label="退伍原因">
             </el-table-column>
             <el-table-column
                     :sortable=true
@@ -50,19 +47,22 @@
             <el-table-column
                     :sortable=true
                     header-align="center"
-                    prop="duty"
-                    label="职务">
+                    prop="serviceperformance"
+                    label="服役表现">
             </el-table-column>
             <el-table-column
-                    :sortable=true
                     header-align="center"
                     fixed="right"
                     label="操作"
                     width="150">
                 <template scope="scope">
-                    <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="small">查看详情</el-button>
+                    <el-button @click.native.prevent="detailsWatch(scope.$index, userData)"
+                               type="text"
+                               size="small">
+                        查看详细
+                    </el-button>
                     <el-button
-                            @click.native.prevent="deleteRow(scope.$index, personMoreData)"
+                            @click.native.prevent="deleteRow(scope.$index, userData)"
                             type="text"
                             size="small">
                         删除
@@ -73,9 +73,55 @@
         <t-pagination></t-pagination>
 
         <el-dialog
-                :title="curRow.name + '的详情资料'"
-                v-model="dialogVisible"
-                size="tiny">
+                title="添加退伍人员"
+                v-model="addUser"
+                size="tiny"
+                @close="resetForm('addForm','addUser')">
+            <div class="dialog-context"
+                 style="position: relative; padding: 0 20px;">
+                <el-form
+                        label-position="right"
+                        label-width="120px"
+                        :model="addForm"
+                        ref="addForm">
+                    <el-form-item label="姓名："
+                                  prop="name"
+                                  class="add">
+                        <el-input v-model="addForm.name">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="退伍时间："
+                                  prop="retiredtime"
+                                  class="add">
+                        <el-input v-model="addForm.retiredtime"></el-input>
+                    </el-form-item>
+                    <el-form-item label="退伍原因："
+                                  prop="retiredreason"
+                                  class="add">
+                        <el-input v-model="addForm.retiredreason"></el-input>
+                    </el-form-item>
+                    <el-form-item label="服役表现："
+                                  prop="serviceperformance"
+                                  class="add">
+                        <el-input
+                                v-model="addForm.serviceperformance">
+
+                        </el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <el-form slot="footer">
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('addForm','addUser')">提交</el-button>
+                    <el-button @click="addUser = false">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+        <el-dialog
+                :title="`${curRow.name}的详情资料`"
+                v-model="detailsDialog"
+                size="tiny"
+                @close="resetData('userData','personMoreData')">
             <div class="dialog-context"
                  style="position: relative; padding: 20px;"
                  v-if="changeMSG">
@@ -119,8 +165,14 @@
                     <el-form-item label="人员当前状态：">
                         <el-input v-model="personMoreData[curIdx].cpxondition"></el-input>
                     </el-form-item>
-                    <el-form-item label="备注：">
-                        <el-input v-model="personMoreData[curIdx].remark"></el-input>
+                    <el-form-item label="退伍时间：">
+                        <el-input v-model="personMoreData[curIdx].retiredtime"></el-input>
+                    </el-form-item>
+                    <el-form-item label="退伍原因：">
+                        <el-input v-model="personMoreData[curIdx].retiredreason"></el-input>
+                    </el-form-item>
+                    <el-form-item label="服役表现：">
+                        <el-input v-model="personMoreData[curIdx].serviceperformance"></el-input>
                     </el-form-item>
                 </el-form>
             </div>
@@ -129,10 +181,6 @@
                  v-else>
                 <div class="leftSide">
                     <div class="textBox">
-                        <div>
-                            <span>姓名：</span>
-                            <span>{{personMoreData[curIdx].name}}</span>
-                        </div>
                         <div>
                             <span>证件号：</span>
                             <span>{{personMoreData[curIdx].pid}}</span>
@@ -173,12 +221,23 @@
                             <span>籍贯：</span>
                             <span>{{personMoreData[curIdx].nativeplace}}</span>
                         </div>
-
+                        <div>
+                            <span>退伍时间：</span>
+                            <span>{{personMoreData[curIdx].retiredtime}}</span>
+                        </div>
+                        <div>
+                            <span>退伍原因：</span>
+                            <span>{{personMoreData[curIdx].retiredreason}}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="rightSide">
                     <div class="imgBox"
                          style="width: 150px;height: 200px;background-color: #dddddd;">
+                    </div>
+                    <div>
+                        <span>服役表现：</span>
+                        <span>{{personMoreData[curIdx].serviceperformance}}</span>
                     </div>
                     <div>
                         <span>所属单位：</span>
@@ -194,15 +253,14 @@
                     </div>
                 </div>
             </div>
-
             <div slot="footer"
                  class="dialog-footer">
-                <el-button @click="dialogVisible = false">
+                <el-button @click="detailsDialog = false">
                     取 消
                 </el-button>
                 <el-button type="primary"
                            v-if="changeMSG"
-                           @click="dialogVisible = false">
+                           @click="detailsDialog = false">
                     提 交
                 </el-button>
                 <el-button type="primary"
@@ -213,133 +271,89 @@
             </div>
         </el-dialog>
 
-        <el-dialog
-                title="添加人员信息"
-                v-model="addPerson"
-                @close="resetForm('personData')"
-                size="tiny">
-            <div class="dialog-context"
-                 style="position: relative; padding: 20px;">
-                <el-form label-position="right"
-                         label-width="120px"
-                         :model="personData"
-                         ref="personData">
-                    <el-form-item label="姓名：">
-                        <el-input v-model="personData.name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="证件号：">
-                        <el-input v-model="personData.pid"></el-input>
-                    </el-form-item>
-                    <el-form-item label="证件类型：">
-                        <el-select v-model="personData.pidtype" placeholder="请选择证件类型">
-                            <el-option label="身份证" value="身份证"></el-option>
-                            <el-option label="学生证" value="学生证"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="出生日期：">
-                        <el-input v-model="personData.birth"></el-input>
-                    </el-form-item>
-                    <el-form-item label="入伍时间：">
-                        <el-input v-model="personData.military"></el-input>
-                    </el-form-item>
-                    <el-form-item label="民族：">
-                        <el-input v-model="personData.nation"></el-input>
-                    </el-form-item>
-                    <el-form-item label="警衔：">
-                        <el-input v-model="personData.level"></el-input>
-                    </el-form-item>
-                    <el-form-item label="职务：">
-                        <el-input v-model="personData.duty"></el-input>
-                    </el-form-item>
-                    <el-form-item label="人员性质：">
-                        <el-input v-model="personData.property"></el-input>
-                    </el-form-item>
-                    <el-form-item label="性别：">
-                        <el-input v-model="personData.sex"></el-input>
-                    </el-form-item>
-                    <el-form-item label="籍贯：">
-                        <el-input v-model="personData.nativeplace"></el-input>
-                    </el-form-item>
-                    <el-form-item label="所属单位：">
-                        <el-input v-model="personData.department"></el-input>
-                    </el-form-item>
-                    <el-form-item label="人员当前状态：">
-                        <el-input v-model="personData.cpxondition"></el-input>
-                    </el-form-item>
-                    <el-form-item label="备注：">
-                        <el-input v-model="personData.remark"></el-input>
-                    </el-form-item>
-                </el-form>
-            </div>
-            <el-form slot="footer"
-                     class="dialog-footer">
-                <el-form-item>
-                    <el-button type="primary"
-                               @click="submitForm('personData')">
-                        提 交
-                    </el-button>
-                    <el-button @click="addPerson = false">
-                        取 消
-                    </el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
-
     </div>
 </template>
-
-<script type="text/ecmascript-6">
-    import Vue from  "vue"
+<script>
+    import Vue from "vue"
     import TSearch from "../table/search.vue"
     import TPagination from "../table/pagination.vue"
 
-
     export default {
-        name: 'innerPerson',
         components: {
             TSearch,
             TPagination
         },
+
         data() {
             return {
                 curIdx: 0,
                 curRow: '',
                 changeMSG: false,
-                dialogVisible: false,
-                addPerson: false,
+                addUser: false,
+                detailsDialog: false,
                 btnData: [
                     {
                         value: "批量删除"
                     },
                     {
-                        value: "添加人员"
+                        value: "添加管理员"
+                    },
+                ],
+                addForm: {
+                    'loginname': "",     //用户登录名
+                    'authority': "",         //用户权限
+                    'department': "",        //用户所属单位
+                    'remark': "",           //备注
+                    'password': "",
+                    'checkPassword': ""
+                },
+                userData: [
+                    {
+                        'name': 'varchar',          //姓名
+                        'retiredtime': 'date',      //退伍时间
+                        'retiredreason': 'text',    //退伍原因
+                        'department': 'varchar',     //所属单位
+                        'serviceperformance': 'text',//服役表现
+                        'remark': 'text',             //备注
                     },
                     {
-                        value: "批量添加"
+                        'name': 'varchar',          //姓名
+                        'retiredtime': 'date',      //退伍时间
+                        'retiredreason': 'text',    //退伍原因
+                        'department': 'varchar',     //所属单位
+                        'serviceperformance': 'text',//服役表现
+                        'remark': 'text',             //备注
+                    },
+                    {
+                        'name': 'varchar',          //姓名
+                        'retiredtime': 'date',      //退伍时间
+                        'retiredreason': 'text',    //退伍原因
+                        'department': 'varchar',     //所属单位
+                        'serviceperformance': 'text',//服役表现
+                        'remark': 'text',             //备注
+                    },
+                    {
+                        'name': 'varchar',          //姓名
+                        'retiredtime': 'date',      //退伍时间
+                        'retiredreason': 'text',    //退伍原因
+                        'department': 'varchar',     //所属单位
+                        'serviceperformance': 'text',//服役表现
+                        'remark': 'text',             //备注
+                    },
+                    {
+                        'name': 'varchar',          //姓名
+                        'retiredtime': 'date',      //退伍时间
+                        'retiredreason': 'text',    //退伍原因
+                        'department': 'varchar',     //所属单位
+                        'serviceperformance': 'text',//服役表现
+                        'remark': 'text',             //备注
                     }
                 ],
-                personData: {
-                    'name': "",                      //姓名
-                    'pid': "",                      //证件号
-                    'pidtype': "",                     //证件类型
-                    'birth': "",                     //出生日期
-                    'military': "",                  //入伍时间
-                    'nation': "",                      //名族
-                    'level': "",                      //警衔
-                    'duty': "",                       //职务
-                    'property': "",                   //人员性质
-                    'sex': "",                         //性别
-                    'nativeplace': "",            //籍贯
-                    'department': "",            //所属单位
-                    'cpxondition': "",              //人员当前状态
-                    'picturepath': "",          //人员照片
-                    'remark': ""                 //备注
-                },
                 personMoreData: [
                     {
-                        'name': "sfgg",                      //姓名
+                        'name': "varchar",                      //姓名
                         'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
+                        'pidtype': "int",                     //证件类型
                         'birth': "date",                     //出生日期
                         'military': "date",                  //入伍时间
                         'nation': "int",                      //名族
@@ -351,12 +365,14 @@
                         'department': "varchar",            //所属单位
                         'cpxondition': "int",              //人员当前状态
                         'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
+                        'retiredtime': "date",            //退伍时间
+                        'retiredreason': "text",          //退伍原因
+                        'serviceperformance': "text",       //服役表现
                     },
                     {
-                        'name': "gsgsg",                      //姓名
+                        'name': "varchar",                      //姓名
                         'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
+                        'pidtype': "int",                     //证件类型
                         'birth': "date",                     //出生日期
                         'military': "date",                  //入伍时间
                         'nation': "int",                      //名族
@@ -368,12 +384,14 @@
                         'department': "varchar",            //所属单位
                         'cpxondition': "int",              //人员当前状态
                         'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
+                        'retiredtime': "date",            //退伍时间
+                        'retiredreason': "text",          //退伍原因
+                        'serviceperformance': "text",       //服役表现
                     },
                     {
-                        'name': "sdgfa",                      //姓名
+                        'name': "varchar",                      //姓名
                         'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
+                        'pidtype': "int",                     //证件类型
                         'birth': "date",                     //出生日期
                         'military': "date",                  //入伍时间
                         'nation': "int",                      //名族
@@ -385,12 +403,14 @@
                         'department': "varchar",            //所属单位
                         'cpxondition': "int",              //人员当前状态
                         'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
+                        'retiredtime': "date",            //退伍时间
+                        'retiredreason': "text",          //退伍原因
+                        'serviceperformance': "text",       //服役表现
                     },
                     {
-                        'name': "fas",                      //姓名
+                        'name': "varchar",                      //姓名
                         'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
+                        'pidtype': "int",                     //证件类型
                         'birth': "date",                     //出生日期
                         'military': "date",                  //入伍时间
                         'nation': "int",                      //名族
@@ -402,40 +422,25 @@
                         'department': "varchar",            //所属单位
                         'cpxondition': "int",              //人员当前状态
                         'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
-                    },
-                    {
-                        'name': "sgs",                      //姓名
-                        'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
-                        'birth': "date",                     //出生日期
-                        'military': "date",                  //入伍时间
-                        'nation': "int",                      //名族
-                        'level': "int",                      //警衔
-                        'duty': "int",                       //职务
-                        'property': "int",                   //人员性质
-                        'sex': "int",                         //性别
-                        'nativeplace': "varchar",            //籍贯
-                        'department': "varchar",            //所属单位
-                        'cpxondition': "int",              //人员当前状态
-                        'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
-                    },
+                        'retiredtime': "date",            //退伍时间
+                        'retiredreason': "text",          //退伍原因
+                        'serviceperformance': "text",       //服役表现
+                    }
+
                 ],
                 multipleSelection: []
             }
-        }
-        ,
+        },
         methods: {
-//          获取多选项
             handleSelectionChange(val) {
                 let Arr = [];
                 val.forEach(function (el) {
                     Arr.push(el);
                 })
                 this.multipleSelection = Arr;
-                console.log(this.multipleSelection);
+//                console.log(this.multipleSelection);
             },
+            //            only use for userData ,this Array
             deleteAllSelection(data){
                 let _self = this;
 //              获取剩下的值
@@ -450,29 +455,33 @@
                 });
 
             },
-//          control the modal show
-            handleEdit(index, row){
+            detailsWatch(index, rows){
+                this.detailsDialog = true;
                 this.curIdx = index;
-                this.curRow = row;
-                this.dialogVisible = true;
+                this.curRow = rows[index];
                 this.changeMSG = false;
             },
-            deleteRow(index, rows){
+            deleteRow(index, rows) {
                 rows.splice(index, 1);
             },
-            resetForm(formName){
-                this.addPerson = false;
-//                解决在未知情况下无法获取Fields
-                console.log(this.$refs[formName]);
-
-                for (let val in this.$refs[formName].model) {
-                    this.personData[val] = "";
-                }
+            resetForm(formName, dialog){
+                this[dialog] = false;
+                this.$refs[formName].resetFields();
             },
-            submitForm(formName){
-                this.addPerson = false;
+            submitForm(formName, dialog){
+                this[dialog] = false;
+            },
+//            绑定详情对象和表格数据对象
+            resetData( acceptData,giveData){
+                let idx = this.curIdx;
+                this[acceptData][idx].retiredtime = this[giveData][idx].retiredtime;
+                this[acceptData][idx].retiredreason = this[giveData][idx].retiredreason;
+                this[acceptData][idx].department = this[giveData][idx].department;
+                this[acceptData][idx].serviceperformance = this[giveData][idx].serviceperformance;
+                this[acceptData][idx].remark = this[giveData][idx].remark;
+//                console.log(this.userData[idx])
             }
-        }
+        },
     }
 </script>
 
@@ -524,22 +533,7 @@
     }
 
     .dialog-context {
-        .clearfix();
-        div {
-            .clearfix();
-        }
-        .leftSide {
-            width: 50%;
-            float: left;
-        }
-        .rightSide {
-            width: 50%;
-            float: right;
 
-            .imgBox {
-                margin: 10px auto 30px;
-            }
-        }
         input {
             margin: 4px 0;
         }
@@ -559,28 +553,23 @@
 
     .el-dialog {
         min-width: 500px;
+        .el-dialog__body {
+            padding-bottom: 0;
+        }
     }
 
-    .el-form-item {
+    .el-form-item.add {
+        margin-bottom: 20px !important;
         .el-form-item__content {
             text-align: left;
             .el-select {
                 width: 100%;
-            }
-            button {
-                float: right;
-                padding: 10px;
-                margin: 0 10px;
-                span {
-                    line-height: 14px;
-                    width: 100%;
-                    padding: 0;
-                }
             }
         }
         .el-form-item__label {
             margin: 5px 0;
         }
     }
+
 
 </style>

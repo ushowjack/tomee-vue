@@ -1,7 +1,7 @@
 <template>
     <div class="table-group">
         <div class="t-btn">
-            <el-button @click="deleteAllSelection">批量删除</el-button>
+            <el-button @click="deleteAllSelection('userData')">批量删除</el-button>
             <el-button @click="addUser = true">添加管理员</el-button>
         </div>
         <t-search></t-search>
@@ -72,7 +72,7 @@
                 title="添加管理员"
                 v-model="addUser"
                 size="tiny"
-                @close="resetForm('addForm')">
+                @close="resetForm('addForm','addUser')">
             <div class="dialog-context"
                  style="position: relative; padding: 0 20px;">
                 <el-form
@@ -133,7 +133,7 @@
             </div>
             <el-form slot="footer">
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('addForm')">提交</el-button>
+                    <el-button type="primary" @click="submitForm('addForm','addUser')">提交</el-button>
                     <el-button @click="addUser = false">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -142,7 +142,7 @@
                 title="密码重置"
                 v-model="resetPassword"
                 size="tiny"
-                @close="resetForm('addForm')">
+                @close="resetForm('addForm','resetPassword')">
             <div class="dialog-context"
                  style="position: relative; padding: 0 20px;">
                 <el-form
@@ -155,8 +155,8 @@
             </div>
             <el-form slot="footer">
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('addForm')">提 交</el-button>
-                    <el-button @click="resetForm('addForm')">取 消</el-button>
+                    <el-button type="primary" @click="submitForm('addForm','resetPassword')">提 交</el-button>
+                    <el-button @click="resetForm('addForm','resetPassword')">取 消</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -166,13 +166,11 @@
 <script>
     import Vue from "vue"
     import TSearch from "../table/search.vue"
-    import TBtn from "../table/button.vue"
     import TPagination from "../table/pagination.vue"
 
     export default {
         components: {
             TSearch,
-            TBtn,
             TPagination
         },
 
@@ -351,6 +349,21 @@
                 this.multipleSelection = Arr;
 //                console.log(this.multipleSelection);
             },
+            //            only use for userData ,this Array
+            deleteAllSelection(data){
+                let _self = this;
+//              获取剩下的值
+                this[data] = this[data].filter(function (currentValue, currentIdx) {
+                    let getItem = true;
+                    _self.multipleSelection.forEach(function (val, idx) {
+                        if (currentValue === val) {
+                            getItem = false;
+                        }
+                    })
+                    return getItem;
+                });
+
+            },
             passwordReset(index, rows){
                 this.resetPassword = true;
             },
@@ -364,31 +377,12 @@
             deleteRow(index, rows) {
                 rows.splice(index, 1);
             },
-//            only use for userData ,this Array
-            deleteAllSelection(){
-                let _self = this;
-//              获取剩下的值
-                this.userData = this.userData.filter(function (currentValue, currentIdx) {
-                    let getItem = true;
-                    _self.multipleSelection.forEach(function (val, idx) {
-                        if (currentValue === val) {
-                            getItem = false;
-                        }
-                    })
-                    return getItem;
-                });
-
-            },
-            resetForm(formName){
-                this.addUser = false;
-                console.log(this.$refs[formName]);
+            resetForm(formName,dialog){
+                this[dialog] = false;
                 this.$refs[formName].resetFields();
-//                for (let val in this.$refs[formName].model) {
-//                    this.addForm[val] = "";
-//                }
             },
-            submitForm(formName){
-                this.addUser = false;
+            submitForm(formName,dialog){
+                this[dialog] = false;
             }
         }
     }

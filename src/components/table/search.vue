@@ -20,10 +20,7 @@
         },
         methods: {
             handleIconClick(ev) {
-                console.log(ev);
-            },
-            hello(){
-                alert("hello!");
+                alert(this.search);
             }
         }
     }
