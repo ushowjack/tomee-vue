@@ -2,7 +2,6 @@
     <div class="table-group">
         <div class="t-btn">
             <el-button @click="deleteAllSelection('userData')">批量删除</el-button>
-            <el-button @click="addUser = true">申请外出</el-button>
         </div>
         <t-search></t-search>
         <el-table
@@ -23,43 +22,44 @@
                     :sortable=true
                     header-align="center"
                     prop="name"
-                    label="姓名">
+                    label="站岗人员姓名">
             </el-table-column>
             <el-table-column
                     :sortable=true
                     header-align="center"
-                    prop="retiredtime"
-                    label="退伍时间">
-            </el-table-column>
-            <el-table-column
-                    :sortable=true
-                    header-align="center"
-                    prop="retiredreason"
-                    label="退伍原因">
-            </el-table-column>
-            <el-table-column
-                    :sortable=true
-                    header-align="center"
-                    prop="department"
+                    prop="orgname"
                     label="所属单位">
             </el-table-column>
             <el-table-column
                     :sortable=true
                     header-align="center"
-                    prop="serviceperformance"
-                    label="服役表现">
+                    prop="date"
+                    label="站岗日期">
+            </el-table-column>
+            <el-table-column
+                    :sortable=true
+                    header-align="center"
+                    prop="standstarttime"
+                    label="站岗开始时间段">
+            </el-table-column>
+            <el-table-column
+                    :sortable=true
+                    header-align="center"
+                    prop="standendtime"
+                    label="站岗结束时间段">
+            </el-table-column>
+            <el-table-column
+                    :sortable=true
+                    header-align="center"
+                    prop="remark"
+                    label="备注">
             </el-table-column>
             <el-table-column
                     header-align="center"
                     fixed="right"
                     label="操作"
-                    width="150">
+                    width="100">
                 <template scope="scope">
-                    <el-button @click.native.prevent="detailsWatch(scope.$index, userData)"
-                               type="text"
-                               size="small">
-                        查看详细
-                    </el-button>
                     <el-button
                             @click.native.prevent="deleteRow(scope.$index, userData)"
                             type="text"
@@ -255,45 +255,42 @@
                 },
                 userData: [
                     {
-                        'name': 'varchar',          //姓名
-                        'retiredtime': 'date',      //退伍时间
-                        'retiredreason': 'text',    //退伍原因
-                        'department': 'varchar',     //所属单位
-                        'serviceperformance': 'text',//服役表现
-                        'remark': 'text',             //备注
+                        'id':'string',//id主键
+                        'name':'string',//站岗人员姓名
+                        'date':'string',//站岗日期
+                        'standstarttime':'string',//站岗开始时间段
+                        'standendtime':'string',//站岗结束时间段
+                        'orgname':'string',//所属单位
+                        'remark':'string',//备注
                     },
                     {
-                        'name': 'varchar',          //姓名
-                        'retiredtime': 'date',      //退伍时间
-                        'retiredreason': 'text',    //退伍原因
-                        'department': 'varchar',     //所属单位
-                        'serviceperformance': 'text',//服役表现
-                        'remark': 'text',             //备注
+                        'id':'string',//id主键
+                        'name':'string',//站岗人员姓名
+                        'date':'string',//站岗日期
+                        'standstarttime':'string',//站岗开始时间段
+                        'standendtime':'string',//站岗结束时间段
+                        'orgname':'string',//所属单位
+                        'remark':'string',//备注
                     },
                     {
-                        'name': 'varchar',          //姓名
-                        'retiredtime': 'date',      //退伍时间
-                        'retiredreason': 'text',    //退伍原因
-                        'department': 'varchar',     //所属单位
-                        'serviceperformance': 'text',//服役表现
-                        'remark': 'text',             //备注
+                        'id':'string',//id主键
+                        'name':'string',//站岗人员姓名
+                        'date':'string',//站岗日期
+                        'standstarttime':'string',//站岗开始时间段
+                        'standendtime':'string',//站岗结束时间段
+                        'orgname':'string',//所属单位
+                        'remark':'string',//备注
                     },
                     {
-                        'name': 'varchar',          //姓名
-                        'retiredtime': 'date',      //退伍时间
-                        'retiredreason': 'text',    //退伍原因
-                        'department': 'varchar',     //所属单位
-                        'serviceperformance': 'text',//服役表现
-                        'remark': 'text',             //备注
-                    },
-                    {
-                        'name': 'varchar',          //姓名
-                        'retiredtime': 'date',      //退伍时间
-                        'retiredreason': 'text',    //退伍原因
-                        'department': 'varchar',     //所属单位
-                        'serviceperformance': 'text',//服役表现
-                        'remark': 'text',             //备注
+                        'id':'string',//id主键
+                        'name':'string',//站岗人员姓名
+                        'date':'string',//站岗日期
+                        'standstarttime':'string',//站岗开始时间段
+                        'standendtime':'string',//站岗结束时间段
+                        'orgname':'string',//所属单位
+                        'remark':'string',//备注
                     }
+
                 ],
                 personMoreData: [
                     {
@@ -431,94 +428,5 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-    @import "../../common/mixins/clearfix.less";
-
-    .table-group {
-        width: 90%;
-        margin: 20px auto;
-        background-color: #fff;
-
-    }
-
-    .t-btn {
-        float: left;
-        padding: 20px 10px;
-    }
-
-    .t-search {
-        width: 200px;
-        float: right;
-        padding: 10px;
-    }
-
-    tbody tr {
-        height: 50px;
-        line-height: 50px;
-    }
-
-    thead {
-        .caret-wrapper {
-            float: right;
-        }
-        height: 60px;
-        line-height: 60px;
-        th.el-table_1_column_1.is-leaf {
-            font-weight: normal;
-            font-size: 16px;
-        }
-        .cell {
-            height: 32px;
-            line-height: 32px !important;
-            span {
-                padding: 0;
-                margin: 0 !important;
-            }
-            /*text-align: center!important;*/
-        }
-    }
-
-    .dialog-context {
-
-        input {
-            margin: 4px 0;
-        }
-        span {
-            display: inline-block;
-            width: 40%;
-            padding: 5px;
-            line-height: 20px;
-            &:first-child {
-                text-align: right;
-            }
-            &:last-child {
-                text-align: left;
-            }
-        }
-    }
-
-    .el-dialog {
-        min-width: 500px;
-        .el-dialog__body {
-            padding-bottom: 0;
-        }
-        .outer {
-            width: 50%;
-            float: left;
-        }
-    }
-
-    .el-form-item.add {
-        margin-bottom: 20px !important;
-        .el-form-item__content {
-            text-align: left;
-            .el-select {
-                width: 100%;
-            }
-        }
-        .el-form-item__label {
-            margin: 5px 0;
-        }
-    }
-
 
 </style>

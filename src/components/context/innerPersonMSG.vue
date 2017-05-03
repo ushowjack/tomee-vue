@@ -1,13 +1,13 @@
 <template>
     <div class="table-group">
         <div class="t-btn">
-            <el-button @click="deleteAllSelection('personMoreData')">批量删除</el-button>
+            <el-button @click="deleteAllSelection('userData')">批量删除</el-button>
             <el-button @click="addPerson = true">添加人员</el-button>
             <el-button>批量添加</el-button>
         </div>
         <t-search></t-search>
         <el-table
-                :data="personMoreData"
+                :data="userData"
                 border
                 tooltip-effect="dark"
                 style="width: 100%"
@@ -317,6 +317,43 @@
                     {
                         value: "批量添加"
                     }
+                ],
+                userData: [
+                    {
+                        'name': "fwat",                      //姓名
+                        'pid': "gasg",                      //证件号
+                        'duty': "fgsdghdf",                       //职务
+                        'sex': "gfsdg",                         //性别
+                        'department': "gdfsggdfg",            //所属单位
+                    },
+                    {
+                        'name': "fgegwat",                      //姓名
+                        'pid': "gasg",                      //证件号
+                        'duty': "fgsdghdf",                       //职务
+                        'sex': "gfsdg",                         //性别
+                        'department': "gdfsggdfg",            //所属单位
+                    },
+                    {
+                        'name': "fsagwat",                      //姓名
+                        'pid': "gasg",                      //证件号
+                        'duty': "fgsdghdf",                       //职务
+                        'sex': "gfsdg",                         //性别
+                        'department': "gdfsggdfg",            //所属单位
+                    },
+                    {
+                        'name': "fwgsgat",                      //姓名
+                        'pid': "gasg",                      //证件号
+                        'duty': "fgsdghdf",                       //职务
+                        'sex': "gfsdg",                         //性别
+                        'department': "gdfsggdfg",            //所属单位
+                    },
+                    {
+                        'name': "gasg",                      //姓名
+                        'pid': "gasg",                      //证件号
+                        'duty': "fgsdghdf",                       //职务
+                        'sex': "gfsdg",                         //性别
+                        'department': "gdfsggdfg",            //所属单位
+                    },
                 ],
                 personData: {
                     'name': "",                      //姓名
