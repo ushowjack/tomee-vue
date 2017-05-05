@@ -4,35 +4,41 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="currentPage"
-                :page-size="10"
+                :page-size="pageSize"
                 layout="prev, pager, next, jumper"
-                :total="1000">
+                :total="total">
         </el-pagination>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
+
+
     export default {
+        props: {
+            total: Number,
+            pageSize: Number
+        },
         methods: {
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
             },
             handleCurrentChange(val) {
                 this.currentPage = val;
-                console.log(`当前页: ${val}`);
+                this.$emit("getPageEvent",this.currentPage);
             }
         },
         data() {
             return {
-                currentPage: 5,
+                currentPage: 1,
             };
         }
     }
 </script>
 
-<style lang="less" rel="stylesheet/less">
-    .el-pagination{
-        padding: 20px!important;
+<style lang="less" rel="stylesheet/less" scoped>
+    .el-pagination {
+        padding: 20px !important;
         text-align: right;
         .el-pagination__jump {
             margin: 0 30px;

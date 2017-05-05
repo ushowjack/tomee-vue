@@ -14,3 +14,13 @@
 [0504/133519.591:ERROR:process_info.cc(625)] range at 0x0, size 0x1b8 fully unreadable
 [0504/133520.093:ERROR:process_info.cc(373)] UncheckedAllocate
 [0504/133727.082:ERROR:http_transport_win.cc(50)] WinHttpSendRequest: 操作超时  (0x2EE2)
+[0505/125512.884:ERROR:process_info.cc(625)] range at 0xe1875f9400000000, size 0x171 fully unreadable
+[0505/125512.928:ERROR:process_info.cc(625)] range at 0xe1875ffa00000000, size 0x171 fully unreadable
+[0505/125512.928:ERROR:process_info.cc(625)] range at 0x0, size 0x171 fully unreadable
+[0505/125513.204:ERROR:process_info.cc(373)] UncheckedAllocate
+[0505/125513.242:ERROR:process_reader_win.cc(233)] ReadMemory at 0x7ffe3a86efa0 of 512 bytes failed: 仅完成部分的 ReadProcessMemory 或 WriteProcessMemory 请求。 (0x12B)
+[0505/125513.243:ERROR:crash_report_exception_handler.cc(111)] WriteEverything failed
+[0505/125909.488:ERROR:process_info.cc(625)] range at 0x96065fba00000000, size 0x218 fully unreadable
+[0505/125910.044:ERROR:process_info.cc(625)] range at 0x9606602000000000, size 0x218 fully unreadable
+[0505/125910.045:ERROR:process_info.cc(625)] range at 0x0, size 0x218 fully unreadable
+[0505/125911.099:ERROR:process_info.cc(373)] UncheckedAllocate

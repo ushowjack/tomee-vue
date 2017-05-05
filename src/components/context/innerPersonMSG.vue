@@ -7,7 +7,7 @@
         </div>
         <t-search></t-search>
         <el-table
-                :data="personMoreData"
+                :data="userData"
                 border
                 tooltip-effect="dark"
                 style="width: 100%"
@@ -37,21 +37,20 @@
             <el-table-column
                     :sortable=true
                     header-align="center"
-                    prop="sex"
-                    width="120"
-                    label="性别">
+                    prop="birth"
+                    label="出生日期">
             </el-table-column>
             <el-table-column
                     :sortable=true
                     header-align="center"
-                    prop="department"
-                    label="所属单位">
-            </el-table-column>
-            <el-table-column
-                    :sortable=true
-                    header-align="center"
-                    prop="duty"
+                    prop="dutyname"
                     label="职务">
+            </el-table-column>
+            <el-table-column
+                    :sortable=true
+                    header-align="center"
+                    prop="sex"
+                    label="性别">
             </el-table-column>
             <el-table-column
                     :sortable=true
@@ -62,7 +61,7 @@
                 <template scope="scope">
                     <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="small">查看详情</el-button>
                     <el-button
-                            @click.native.prevent="deleteRow(scope.$index, personMoreData)"
+                            @click.native.prevent="deleteRow(scope.$index, userData)"
                             type="text"
                             size="small">
                         删除
@@ -70,7 +69,10 @@
                 </template>
             </el-table-column>
         </el-table>
-        <t-pagination></t-pagination>
+        <t-pagination :pageSize="pageSize"
+                      :total="total"
+                      @getPageEvent="getPageEvent">
+        </t-pagination>
 
         <el-dialog
                 :title="curRow.name + '的详情资料'"
@@ -293,9 +295,12 @@
     import TSearch from "../table/search.vue"
     import TPagination from "../table/pagination.vue"
     import axios from 'axios'
+    import qs from 'qs'
 
     var REST_MAIN = 'http://127.0.0.1/SmartBarracksPHP_Code/';
-    var REST_UserLog_index = 'PersonInfo/person';
+    var REST_UserLog_person = 'PersonInfo/person';
+    var REST_UserLog_personAdd = 'PersonInfo/personAdd';
+    var REST_UserLog_delete = 'PersonInfo/delete';
 
     export default {
         name: 'innerPerson',
@@ -305,11 +310,12 @@
         },
         mounted(){
             let _self = this;
-            axios.get(REST_MAIN + REST_UserLog_index)
+            axios.get(REST_MAIN + REST_UserLog_person)
                 .then(function (response) {
                     console.log(response.data);
-                    console.log(_self.personMoreData)
-                    _self.personMoreData = response.data.data;
+//                    console.log(_self.userData)
+                    _self.userData = response.data.data;
+                    _self.total = response.data.total;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -317,6 +323,9 @@
         },
         data() {
             return {
+                currentPage: 1,
+                pageSize: 10,
+                total: 100,
                 curIdx: 0,
                 curRow: '',
                 changeMSG: false,
@@ -324,41 +333,50 @@
                 addPerson: false,
                 userData: [
                     {
-                        'name': "fwat",                      //姓名
-                        'pid': "gasg",                      //证件号
-                        'duty': "fgsdghdf",                       //职务
-                        'sex': "gfsdg",                         //性别
-                        'department': "gdfsggdfg",            //所属单位
-                    },
-                    {
-                        'name': "fgegwat",                      //姓名
-                        'pid': "gasg",                      //证件号
-                        'duty': "fgsdghdf",                       //职务
-                        'sex': "gfsdg",                         //性别
-                        'department': "gdfsggdfg",            //所属单位
-                    },
-                    {
-                        'name': "fsagwat",                      //姓名
-                        'pid': "gasg",                      //证件号
-                        'duty': "fgsdghdf",                       //职务
-                        'sex': "gfsdg",                         //性别
-                        'department': "gdfsggdfg",            //所属单位
-                    },
-                    {
-                        'name': "fwgsgat",                      //姓名
-                        'pid': "gasg",                      //证件号
-                        'duty': "fgsdghdf",                       //职务
-                        'sex': "gfsdg",                         //性别
-                        'department': "gdfsggdfg",            //所属单位
-                    },
-                    {
-                        'name': "gasg",                      //姓名
-                        'pid': "gasg",                      //证件号
-                        'duty': "fgsdghdf",                       //职务
-                        'sex': "gfsdg",                         //性别
-                        'department': "gdfsggdfg",            //所属单位
-                    },
+                        "name": '',//姓名
+                        "pid": '',//证件号
+                        "birth": '',//出生日期
+                        "dutyname": '',//职务
+                        "sex": '',//性别
+                    }
                 ],
+//                userData: [
+//                    {
+//                        'name': "fwat",                      //姓名
+//                        'pid': "gasg",                      //证件号
+//                        'duty': "fgsdghdf",                       //职务
+//                        'sex': "gfsdg",                         //性别
+//                        'department': "gdfsggdfg",            //所属单位
+//                    },
+//                    {
+//                        'name': "fgegwat",                      //姓名
+//                        'pid': "gasg",                      //证件号
+//                        'duty': "fgsdghdf",                       //职务
+//                        'sex': "gfsdg",                         //性别
+//                        'department': "gdfsggdfg",            //所属单位
+//                    },
+//                    {
+//                        'name': "fsagwat",                      //姓名
+//                        'pid': "gasg",                      //证件号
+//                        'duty': "fgsdghdf",                       //职务
+//                        'sex': "gfsdg",                         //性别
+//                        'department': "gdfsggdfg",            //所属单位
+//                    },
+//                    {
+//                        'name': "fwgsgat",                      //姓名
+//                        'pid': "gasg",                      //证件号
+//                        'duty': "fgsdghdf",                       //职务
+//                        'sex': "gfsdg",                         //性别
+//                        'department': "gdfsggdfg",            //所属单位
+//                    },
+//                    {
+//                        'name': "gasg",                      //姓名
+//                        'pid': "gasg",                      //证件号
+//                        'duty': "fgsdghdf",                       //职务
+//                        'sex': "gfsdg",                         //性别
+//                        'department': "gdfsggdfg",            //所属单位
+//                    },
+//                ],
                 personData: {
                     'name': "",                      //姓名
                     'pid': "",                      //证件号
@@ -376,6 +394,7 @@
                     'picturepath': "",          //人员照片
                     'remark': ""                 //备注
                 },
+//                personMoreData: [],
                 personMoreData: [
                     {
                         'name': "sfgg",                      //姓名
@@ -468,6 +487,43 @@
         }
         ,
         methods: {
+//            重置页面
+            openMSG(msg) {
+                this.$alert(msg, '信息提示', {
+                    confirmButtonText: '确定'
+                })
+            },
+            deleteMSG(cb1, cb2) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            getPage(page){
+                let _self = this;
+                axios.get(REST_MAIN + REST_UserLog_person + `/p/${page}`)
+                    .then(function (response) {
+                        console.log(response.data);
+//                    console.log(_self.userData)
+                        _self.userData = response.data.data;
+                        _self.total = response.data.total;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
 //          获取多选项
             handleSelectionChange(val) {
                 let Arr = [];
@@ -478,18 +534,36 @@
 //                console.log(this.multipleSelection);
             },
             deleteAllSelection(data){
-                let _self = this;
+//                console.log(this.multipleSelection);
 //              获取剩下的值
-                this[data] = this[data].filter(function (currentValue, currentIdx) {
-                    let getItem = true;
-                    _self.multipleSelection.forEach(function (val, idx) {
-                        if (currentValue === val) {
-                            getItem = false;
-                        }
-                    })
-                    return getItem;
-                });
+                let DATA_LEN = this[data].length;
+                let MS_LEN = this.multipleSelection.length
+                let Arr = [];
+//              get the different value
+                for (let i = 0; i < DATA_LEN; i++) {
+                    let getObj = false;
 
+                    for (let j = 0; j < MS_LEN; j++) {
+                        if (this[data][i] === this.multipleSelection[j]) {
+                            getObj = true;
+                        }
+                    }
+
+                    if (!getObj) {
+                        Arr.push(this[data][i]);
+                    }
+                }
+
+                if (MS_LEN !== DATA_LEN) {
+                    this[data] = [{}];
+                    for (let i = 0; i < Arr.length; i++) {
+                        this[data].push(Arr[i]);
+                    }
+                    this[data].shift();
+
+                } else {
+                    this[data] = [{}];
+                }
             },
 //          control the modal show
             handleEdit(index, row){
@@ -499,7 +573,30 @@
                 this.changeMSG = false;
             },
             deleteRow(index, rows){
-                rows.splice(index, 1);
+                let _self = this;
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.post(REST_MAIN + REST_UserLog_delete, qs.stringify({
+                            pid: rows[index].pid
+                        })
+                    ).then(function (response) {
+                        _self.getPage(_self.currentPage);
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             },
             resetForm(formName){
                 this.addPerson = false;
@@ -512,8 +609,20 @@
             },
             submitForm(formName){
                 this.addPerson = false;
+                let _self = this;
+                axios.post(REST_MAIN + REST_UserLog_personAdd, _self.personData)
+                    .then(function (response) {
+                        alert(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            getPageEvent(page){
+                this.getPage(page);
             }
-        }
+        },
+
     }
 </script>
 
