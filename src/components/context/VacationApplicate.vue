@@ -51,10 +51,10 @@
                     width="200">
                 <template scope="scope">
 
-                    <el-button @click.native.prevent="passwordReset(scope.$index, userData)"
+                    <el-button @click.native.prevent="detailMore(scope.$index, userData)"
                                type="text"
                                size="small">
-                        密码重置
+                        查看详情
                     </el-button>
                     <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="small">修改</el-button>
                     <el-button
@@ -364,7 +364,7 @@
                 });
 
             },
-            passwordReset(index, rows){
+            detailMore(index, rows){
                 this.resetPassword = true;
             },
 //          control the modal show

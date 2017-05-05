@@ -9,6 +9,7 @@ import policeBoxManage from '../components/context/PoliceboxManage.vue'
 import standArrange from '../components/context/StandArrange.vue'
 import standRecord from '../components/context/StandRecord.vue'
 import vacationApplicate from '../components/context/VacationApplicate.vue'
+import userLog from '../components/context/userLog.vue'
 
 
 Vue.use(Router)
@@ -59,6 +60,11 @@ export default new Router({
             path: '/考勤管理',
             name: 'vacationApplicate',
             component: vacationApplicate
+        },
+        {
+            path: '/日志管理',
+            name: 'userLog',
+            component: userLog
         }
 
     ]

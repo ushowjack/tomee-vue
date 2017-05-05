@@ -7,7 +7,7 @@
         </div>
         <t-search></t-search>
         <el-table
-                :data="userData"
+                :data="personMoreData"
                 border
                 tooltip-effect="dark"
                 style="width: 100%"
@@ -19,7 +19,7 @@
             </el-table-column>
             <el-table-column
                     type="index"
-                    width="50">
+                    width="80">
             </el-table-column>
             <el-table-column
                     :sortable=true
@@ -292,13 +292,28 @@
     import Vue from  "vue"
     import TSearch from "../table/search.vue"
     import TPagination from "../table/pagination.vue"
+    import axios from 'axios'
 
+    var REST_MAIN = 'http://127.0.0.1/SmartBarracksPHP_Code/';
+    var REST_UserLog_index = 'PersonInfo/person';
 
     export default {
         name: 'innerPerson',
         components: {
             TSearch,
             TPagination
+        },
+        mounted(){
+            let _self = this;
+            axios.get(REST_MAIN + REST_UserLog_index)
+                .then(function (response) {
+                    console.log(response.data);
+                    console.log(_self.personMoreData)
+                    _self.personMoreData = response.data.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         data() {
             return {
@@ -307,17 +322,6 @@
                 changeMSG: false,
                 dialogVisible: false,
                 addPerson: false,
-                btnData: [
-                    {
-                        value: "批量删除"
-                    },
-                    {
-                        value: "添加人员"
-                    },
-                    {
-                        value: "批量添加"
-                    }
-                ],
                 userData: [
                     {
                         'name': "fwat",                      //姓名

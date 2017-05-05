@@ -12,6 +12,11 @@
 </template>
 
 <script>
+    import axios from 'axios'
+    var REST_MAIN = 'http://127.0.0.1/SmartBarracksPHP_Code/';
+//    var REST_MAIN = '';
+    var REST_UserLog_index = 'Userlog/index';
+
     export default {
         data() {
             return {
@@ -20,7 +25,14 @@
         },
         methods: {
             handleIconClick(ev) {
-                alert(this.search);
+//                alert(this.search);
+                axios.get(REST_MAIN + REST_UserLog_index)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         }
     }
