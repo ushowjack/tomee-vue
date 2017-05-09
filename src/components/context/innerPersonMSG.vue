@@ -59,7 +59,7 @@
                     label="操作"
                     width="150">
                 <template scope="scope">
-                    <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="small">查看详情</el-button>
+                    <el-button @click="detailMore(scope.$index, scope.row)" type="text" size="small">查看详情</el-button>
                     <el-button
                             @click.native.prevent="deleteRow(scope.$index, userData)"
                             type="text"
@@ -83,46 +83,46 @@
                  v-if="changeMSG">
                 <el-form label-position="right" label-width="120px">
                     <el-form-item label="证件号：">
-                        <el-input v-model="personMoreData[curIdx].pid"></el-input>
+                        <el-input v-model="personMoreData.pid"></el-input>
                     </el-form-item>
                     <el-form-item label="证件类型：">
-                        <el-select v-model="personMoreData[curIdx].pidtype" placeholder="请选择证件类型">
-                            <el-option label="身份证" value="身份证"></el-option>
+                        <el-select v-model="personMoreData.pidtype" placeholder="请选择证件类型">
+                            <el-option label="身份证" value="123"></el-option>
                             <el-option label="学生证" value="学生证"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="出生日期：">
-                        <el-input v-model="personMoreData[curIdx].birth"></el-input>
+                        <el-input v-model="personMoreData.birth"></el-input>
                     </el-form-item>
                     <el-form-item label="入伍时间：">
-                        <el-input v-model="personMoreData[curIdx].military"></el-input>
+                        <el-input v-model="personMoreData.military"></el-input>
                     </el-form-item>
                     <el-form-item label="民族：">
-                        <el-input v-model="personMoreData[curIdx].nation"></el-input>
+                        <el-input v-model="personMoreData.nation"></el-input>
                     </el-form-item>
                     <el-form-item label="警衔：">
-                        <el-input v-model="personMoreData[curIdx].level"></el-input>
+                        <el-input v-model="personMoreData.level"></el-input>
                     </el-form-item>
                     <el-form-item label="职务：">
-                        <el-input v-model="personMoreData[curIdx].duty"></el-input>
+                        <el-input v-model="personMoreData.duty"></el-input>
                     </el-form-item>
                     <el-form-item label="人员性质：">
-                        <el-input v-model="personMoreData[curIdx].property"></el-input>
+                        <el-input v-model="personMoreData.property"></el-input>
                     </el-form-item>
                     <el-form-item label="性别：">
-                        <el-input v-model="personMoreData[curIdx].sex"></el-input>
+                        <el-input v-model="personMoreData.sex"></el-input>
                     </el-form-item>
                     <el-form-item label="籍贯：">
-                        <el-input v-model="personMoreData[curIdx].nativeplace"></el-input>
+                        <el-input v-model="personMoreData.nativeplace"></el-input>
                     </el-form-item>
                     <el-form-item label="所属单位：">
-                        <el-input v-model="personMoreData[curIdx].department"></el-input>
+                        <el-input v-model="personMoreData.department"></el-input>
                     </el-form-item>
                     <el-form-item label="人员当前状态：">
-                        <el-input v-model="personMoreData[curIdx].cpxondition"></el-input>
+                        <el-input v-model="personMoreData.cpxondition"></el-input>
                     </el-form-item>
                     <el-form-item label="备注：">
-                        <el-input v-model="personMoreData[curIdx].remark"></el-input>
+                        <el-input v-model="personMoreData.remark"></el-input>
                     </el-form-item>
                 </el-form>
             </div>
@@ -133,47 +133,47 @@
                     <div class="textBox">
                         <div>
                             <span>姓名：</span>
-                            <span>{{personMoreData[curIdx].name}}</span>
+                            <span>{{personMoreData.name}}</span>
                         </div>
                         <div>
                             <span>证件号：</span>
-                            <span>{{personMoreData[curIdx].pid}}</span>
+                            <span>{{personMoreData.pid}}</span>
                         </div>
                         <div>
                             <span>证件类型：</span>
-                            <span>{{personMoreData[curIdx].pidtype}}</span>
+                            <span>{{personMoreData.pidtype}}</span>
                         </div>
                         <div>
                             <span>出生日期：</span>
-                            <span>{{personMoreData[curIdx].birth}}</span>
+                            <span>{{personMoreData.birth}}</span>
                         </div>
                         <div>
                             <span>入伍时间：</span>
-                            <span>{{personMoreData[curIdx].military}}</span>
+                            <span>{{personMoreData.military}}</span>
                         </div>
                         <div>
                             <span>民族：</span>
-                            <span>{{personMoreData[curIdx].nation}}</span>
+                            <span>{{personMoreData.nation}}</span>
                         </div>
                         <div>
                             <span>警衔：</span>
-                            <span>{{personMoreData[curIdx].level}}</span>
+                            <span>{{personMoreData.level}}</span>
                         </div>
                         <div>
                             <span>职务：</span>
-                            <span>{{personMoreData[curIdx].duty}}</span>
+                            <span>{{personMoreData.duty}}</span>
                         </div>
                         <div>
                             <span>人员性质：</span>
-                            <span>{{personMoreData[curIdx].property}}</span>
+                            <span>{{personMoreData.property}}</span>
                         </div>
                         <div>
                             <span>性别：</span>
-                            <span>{{personMoreData[curIdx].sex}}</span>
+                            <span>{{personMoreData.sex}}</span>
                         </div>
                         <div>
                             <span>籍贯：</span>
-                            <span>{{personMoreData[curIdx].nativeplace}}</span>
+                            <span>{{personMoreData.nativeplace}}</span>
                         </div>
 
                     </div>
@@ -184,15 +184,15 @@
                     </div>
                     <div>
                         <span>所属单位：</span>
-                        <span>{{personMoreData[curIdx].department}}</span>
+                        <span>{{personMoreData.department}}</span>
                     </div>
                     <div>
                         <span>人员当前状态：</span>
-                        <span>{{personMoreData[curIdx].cpxondition}}</span>
+                        <span>{{personMoreData.cpxondition}}</span>
                     </div>
                     <div>
                         <span>备注：</span>
-                        <span>{{personMoreData[curIdx].remark}}</span>
+                        <span>{{personMoreData.remark}}</span>
                     </div>
                 </div>
             </div>
@@ -209,7 +209,7 @@
                 </el-button>
                 <el-button type="primary"
                            v-else
-                           @click="changeMSG = true">
+                           @click="editDetailFn">
                     修 改
                 </el-button>
             </div>
@@ -298,9 +298,12 @@
     import qs from 'qs'
 
     var REST_MAIN = 'http://127.0.0.1/SmartBarracksPHP_Code/';
-    var REST_UserLog_person = 'PersonInfo/person';
-    var REST_UserLog_personAdd = 'PersonInfo/personAdd';
-    var REST_UserLog_delete = 'PersonInfo/delete';
+    var REST_UserLog_person = REST_MAIN + 'PersonInfo/person';
+    var REST_UserLog_personAdd = REST_MAIN + 'PersonInfo/personAdd';
+    var REST_UserLog_delete = REST_MAIN + 'PersonInfo/delete';
+    var REST_UserLog_detail = REST_MAIN + 'PersonInfo/detail';
+    var REST_UserLog_editDetail = REST_MAIN + 'PersonInfo/editDetail';
+
 
     export default {
         name: 'innerPerson',
@@ -308,11 +311,11 @@
             TSearch,
             TPagination
         },
-        mounted(){
+        created(){
             let _self = this;
-            axios.get(REST_MAIN + REST_UserLog_person)
+            axios.get(REST_UserLog_person)
                 .then(function (response) {
-                    console.log(response.data);
+//                    console.log(response.data);
 //                    console.log(_self.userData)
                     _self.userData = response.data.data;
                     _self.total = response.data.total;
@@ -325,163 +328,16 @@
             return {
                 currentPage: 1,
                 pageSize: 10,
-                total: 100,
+                total: 1,
                 curIdx: 0,
                 curRow: '',
                 changeMSG: false,
                 dialogVisible: false,
                 addPerson: false,
-                userData: [
-                    {
-                        "name": '',//姓名
-                        "pid": '',//证件号
-                        "birth": '',//出生日期
-                        "dutyname": '',//职务
-                        "sex": '',//性别
-                    }
-                ],
-//                userData: [
-//                    {
-//                        'name': "fwat",                      //姓名
-//                        'pid': "gasg",                      //证件号
-//                        'duty': "fgsdghdf",                       //职务
-//                        'sex': "gfsdg",                         //性别
-//                        'department': "gdfsggdfg",            //所属单位
-//                    },
-//                    {
-//                        'name': "fgegwat",                      //姓名
-//                        'pid': "gasg",                      //证件号
-//                        'duty': "fgsdghdf",                       //职务
-//                        'sex': "gfsdg",                         //性别
-//                        'department': "gdfsggdfg",            //所属单位
-//                    },
-//                    {
-//                        'name': "fsagwat",                      //姓名
-//                        'pid': "gasg",                      //证件号
-//                        'duty': "fgsdghdf",                       //职务
-//                        'sex': "gfsdg",                         //性别
-//                        'department': "gdfsggdfg",            //所属单位
-//                    },
-//                    {
-//                        'name': "fwgsgat",                      //姓名
-//                        'pid': "gasg",                      //证件号
-//                        'duty': "fgsdghdf",                       //职务
-//                        'sex': "gfsdg",                         //性别
-//                        'department': "gdfsggdfg",            //所属单位
-//                    },
-//                    {
-//                        'name': "gasg",                      //姓名
-//                        'pid': "gasg",                      //证件号
-//                        'duty': "fgsdghdf",                       //职务
-//                        'sex': "gfsdg",                         //性别
-//                        'department': "gdfsggdfg",            //所属单位
-//                    },
-//                ],
-                personData: {
-                    'name': "",                      //姓名
-                    'pid': "",                      //证件号
-                    'pidtype': "",                     //证件类型
-                    'birth': "",                     //出生日期
-                    'military': "",                  //入伍时间
-                    'nation': "",                      //名族
-                    'level': "",                      //警衔
-                    'duty': "",                       //职务
-                    'property': "",                   //人员性质
-                    'sex': "",                         //性别
-                    'nativeplace': "",            //籍贯
-                    'department': "",            //所属单位
-                    'cpxondition': "",              //人员当前状态
-                    'picturepath': "",          //人员照片
-                    'remark': ""                 //备注
-                },
-//                personMoreData: [],
-                personMoreData: [
-                    {
-                        'name': "sfgg",                      //姓名
-                        'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
-                        'birth': "date",                     //出生日期
-                        'military': "date",                  //入伍时间
-                        'nation': "int",                      //名族
-                        'level': "int",                      //警衔
-                        'duty': "int",                       //职务
-                        'property': "int",                   //人员性质
-                        'sex': "int",                         //性别
-                        'nativeplace': "varchar",            //籍贯
-                        'department': "varchar",            //所属单位
-                        'cpxondition': "int",              //人员当前状态
-                        'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
-                    },
-                    {
-                        'name': "gsgsg",                      //姓名
-                        'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
-                        'birth': "date",                     //出生日期
-                        'military': "date",                  //入伍时间
-                        'nation': "int",                      //名族
-                        'level': "int",                      //警衔
-                        'duty': "int",                       //职务
-                        'property': "int",                   //人员性质
-                        'sex': "int",                         //性别
-                        'nativeplace': "varchar",            //籍贯
-                        'department': "varchar",            //所属单位
-                        'cpxondition': "int",              //人员当前状态
-                        'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
-                    },
-                    {
-                        'name': "sdgfa",                      //姓名
-                        'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
-                        'birth': "date",                     //出生日期
-                        'military': "date",                  //入伍时间
-                        'nation': "int",                      //名族
-                        'level': "int",                      //警衔
-                        'duty': "int",                       //职务
-                        'property': "int",                   //人员性质
-                        'sex': "int",                         //性别
-                        'nativeplace': "varchar",            //籍贯
-                        'department': "varchar",            //所属单位
-                        'cpxondition': "int",              //人员当前状态
-                        'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
-                    },
-                    {
-                        'name': "fas",                      //姓名
-                        'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
-                        'birth': "date",                     //出生日期
-                        'military': "date",                  //入伍时间
-                        'nation': "int",                      //名族
-                        'level': "int",                      //警衔
-                        'duty': "int",                       //职务
-                        'property': "int",                   //人员性质
-                        'sex': "int",                         //性别
-                        'nativeplace': "varchar",            //籍贯
-                        'department': "varchar",            //所属单位
-                        'cpxondition': "int",              //人员当前状态
-                        'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
-                    },
-                    {
-                        'name': "sgs",                      //姓名
-                        'pid': "varchar",                      //证件号
-                        'pidtype': "身份证",                     //证件类型
-                        'birth': "date",                     //出生日期
-                        'military': "date",                  //入伍时间
-                        'nation': "int",                      //名族
-                        'level': "int",                      //警衔
-                        'duty': "int",                       //职务
-                        'property': "int",                   //人员性质
-                        'sex': "int",                         //性别
-                        'nativeplace': "varchar",            //籍贯
-                        'department': "varchar",            //所属单位
-                        'cpxondition': "int",              //人员当前状态
-                        'picturepath': "varchar",          //人员照片
-                        'remark': "text",                 //备注
-                    },
-                ],
+                userData: [],
+                personData:{},
+                personEditData: {},
+                personMoreData: {},
                 multipleSelection: []
             }
         }
@@ -493,29 +349,11 @@
                     confirmButtonText: '确定'
                 })
             },
-            deleteMSG(cb1, cb2) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
-
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-            },
             getPage(page){
                 let _self = this;
-                axios.get(REST_MAIN + REST_UserLog_person + `/p/${page}`)
+                axios.get(REST_UserLog_person + `/p/${page}`)
                     .then(function (response) {
-                        console.log(response.data);
+//                        console.log(response.data);
 //                    console.log(_self.userData)
                         _self.userData = response.data.data;
                         _self.total = response.data.total;
@@ -533,7 +371,7 @@
                 this.multipleSelection = Arr;
 //                console.log(this.multipleSelection);
             },
-            deleteAllSelection(data){
+            deleteAllSelectionFn(data){
 //                console.log(this.multipleSelection);
 //              获取剩下的值
                 let DATA_LEN = this[data].length;
@@ -541,45 +379,32 @@
                 let Arr = [];
 //              get the different value
                 for (let i = 0; i < DATA_LEN; i++) {
-                    let getObj = false;
-
+                    let getObj = true;
                     for (let j = 0; j < MS_LEN; j++) {
                         if (this[data][i] === this.multipleSelection[j]) {
-                            getObj = true;
+                            getObj = false;
                         }
                     }
-
-                    if (!getObj) {
+                    if (getObj) {
                         Arr.push(this[data][i]);
                     }
                 }
-
+//                console.log(Arr);
+//                over here is no problem
                 if (MS_LEN !== DATA_LEN) {
-                    this[data] = [{}];
-                    for (let i = 0; i < Arr.length; i++) {
-                        this[data].push(Arr[i]);
-                    }
-                    this[data].shift();
-
+                    this[data] = Arr;
                 } else {
-                    this[data] = [{}];
+                    this[data] = [];
                 }
-            },
-//          control the modal show
-            handleEdit(index, row){
-                this.curIdx = index;
-                this.curRow = row;
-                this.dialogVisible = true;
-                this.changeMSG = false;
             },
             deleteRow(index, rows){
                 let _self = this;
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                this.$confirm('此操作将永久删除选中人员, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.post(REST_MAIN + REST_UserLog_delete, qs.stringify({
+                    axios.post(REST_UserLog_delete, qs.stringify({
                             pid: rows[index].pid
                         })
                     ).then(function (response) {
@@ -598,11 +423,78 @@
                     });
                 });
             },
+            deleteAllSelection(data){
+                let _self = this;
+                let selectionArr = [];
+                this.multipleSelection.forEach(function (val, idx) {
+                    selectionArr.push(val.pid)
+                });
+                if (!selectionArr.length) {
+                    this.$message({
+                        showClose: true,
+                        message: '请选择需要删除的人员',
+                        type: 'warning'
+                    });
+                    return false;
+                }
+                this.$confirm('此操作将永久删除所有选中人员, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.post(REST_UserLog_delete, qs.stringify({
+                            pid: selectionArr
+                        })
+                    )
+                        .then(function (response) {
+                            console.log(response)
+                            if (response.data.state === '303100') {
+                                _self.getPage(_self.currentPage);
+                                _self.$message({
+                                    message: response.data.msg
+                                });
+                            } else {
+                                _self.deleteAllSelectionFn(data);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+//          control the modal show
+            detailMore(index, row){
+                this.curIdx = index;
+                this.curRow = row;
+                this.dialogVisible = true;
+                this.changeMSG = false;
+
+                let _self = this;
+                axios.get(`${REST_UserLog_detail}/pid/${row.pid}`)
+                    .then(function (res) {
+                        _self.personMoreData = res.data;
+                    }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            editDetailFn(){
+//                this.changeMSG = true;
+//                axios.get(`${REST_UserLog_detail}/pid/${this.curRow}`)
+//                    .then(function (res) {
+//                        _self.personMoreData = res.data;
+//                    }).catch(function (error) {
+//                    console.log(error);
+//                });
+            },
             resetForm(formName){
                 this.addPerson = false;
 //                解决在未知情况下无法获取Fields
 //                console.log(this.$refs[formName]);
-
                 for (let val in this.$refs[formName].model) {
                     this.personData[val] = "";
                 }
@@ -610,9 +502,9 @@
             submitForm(formName){
                 this.addPerson = false;
                 let _self = this;
-                axios.post(REST_MAIN + REST_UserLog_personAdd, _self.personData)
+                axios.post(REST_UserLog_personAdd, qs.stringify(_self.personData))
                     .then(function (response) {
-                        alert(response);
+                        console.log(response);
                     })
                     .catch(function (error) {
                         console.log(error);
