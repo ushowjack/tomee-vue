@@ -2,7 +2,7 @@
     <div class="table-group">
         <div class="t-btn">
             <el-button @click="deleteAllSelection('userData')">批量删除</el-button>
-            <el-button @click="addPerson = true">添加人员</el-button>
+            <el-button @click="addPersonFn">添加人员</el-button>
             <el-button>批量添加</el-button>
         </div>
         <t-search></t-search>
@@ -81,48 +81,82 @@
             <div class="dialog-context"
                  style="position: relative; padding: 20px;"
                  v-if="changeMSG">
+
                 <el-form label-position="right" label-width="120px">
                     <el-form-item label="证件号：">
-                        <el-input v-model="personMoreData.pid"></el-input>
+                        <el-input v-model="personEditData.pid"></el-input>
                     </el-form-item>
                     <el-form-item label="证件类型：">
-                        <el-select v-model="personMoreData.pidtype" placeholder="请选择证件类型">
-                            <el-option label="身份证" value="123"></el-option>
-                            <el-option label="学生证" value="学生证"></el-option>
-                        </el-select>
+                        <template>
+                            <el-select v-model="submitPidType" placeholder="请选择证件类型">
+                                <el-option :label="item.label"
+                                           :key="item.value"
+                                           :value="item.value"
+                                           v-for="item in personEditData.pidtype"
+                                           :selected="item.selected">
+                                </el-option>
+                            </el-select>
+                        </template>
                     </el-form-item>
                     <el-form-item label="出生日期：">
-                        <el-input v-model="personMoreData.birth"></el-input>
+                        <el-input v-model="personEditData.birth"></el-input>
                     </el-form-item>
                     <el-form-item label="入伍时间：">
-                        <el-input v-model="personMoreData.military"></el-input>
+                        <el-input v-model="personEditData.military"></el-input>
                     </el-form-item>
                     <el-form-item label="民族：">
-                        <el-input v-model="personMoreData.nation"></el-input>
+                        <el-select v-model="submitNation" placeholder="请选择民族">
+                            <el-option :label="item.label"
+                                       :key="item.value"
+                                       :value="item.value"
+                                       v-for="item in personEditData.nation">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="警衔：">
-                        <el-input v-model="personMoreData.level"></el-input>
+                        <el-select v-model="submitLevel" placeholder="请选择警衔">
+                            <el-option :label="item.label"
+                                       :value="item.value"
+                                       :key="item.value"
+                                       v-for="item in personEditData.level"
+                                       :selected="item.selected">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="职务：">
-                        <el-input v-model="personMoreData.duty"></el-input>
+                        <el-select v-model="submitDuty" placeholder="请选择职务">
+                            <el-option :label="item.label"
+                                       :key="item.value"
+                                       :value="item.value"
+                                       v-for="item in personEditData.duty"
+                                       :selected="item.selected">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="人员性质：">
-                        <el-input v-model="personMoreData.property"></el-input>
+                        <el-select v-model="submitProperty" placeholder="请选择人员性质">
+                            <el-option :label="item.label"
+                                       :key="item.value"
+                                       :value="item.value"
+                                       v-for="item in personEditData.property"
+                                       :selected="item.selected">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="性别：">
-                        <el-input v-model="personMoreData.sex"></el-input>
+                        <el-input v-model="personEditData.sex"></el-input>
                     </el-form-item>
                     <el-form-item label="籍贯：">
-                        <el-input v-model="personMoreData.nativeplace"></el-input>
+                        <el-input v-model="personEditData.nativeplace"></el-input>
                     </el-form-item>
                     <el-form-item label="所属单位：">
-                        <el-input v-model="personMoreData.department"></el-input>
+                        <el-input v-model="personEditData.department"></el-input>
                     </el-form-item>
                     <el-form-item label="人员当前状态：">
-                        <el-input v-model="personMoreData.cpxondition"></el-input>
+                        <el-input v-model="personEditData.cpxondition"></el-input>
                     </el-form-item>
                     <el-form-item label="备注：">
-                        <el-input v-model="personMoreData.remark"></el-input>
+                        <el-input v-model="personEditData.remark"></el-input>
                     </el-form-item>
                 </el-form>
             </div>
@@ -141,7 +175,7 @@
                         </div>
                         <div>
                             <span>证件类型：</span>
-                            <span>{{personMoreData.pidtype}}</span>
+                            <span v-if="personMoreData.pidtype">{{personMoreData.pidtype.label}}</span>
                         </div>
                         <div>
                             <span>出生日期：</span>
@@ -153,19 +187,20 @@
                         </div>
                         <div>
                             <span>民族：</span>
-                            <span>{{personMoreData.nation}}</span>
+                            <span v-if="personMoreData.nation">{{personMoreData.nation.label}}</span>
                         </div>
                         <div>
                             <span>警衔：</span>
-                            <span>{{personMoreData.level}}</span>
+                            <span v-if="personMoreData.level">{{personMoreData.level.label}}</span>
+
                         </div>
                         <div>
                             <span>职务：</span>
-                            <span>{{personMoreData.duty}}</span>
+                            <span v-if="personMoreData.duty">{{personMoreData.duty.label}}</span>
                         </div>
                         <div>
                             <span>人员性质：</span>
-                            <span>{{personMoreData.property}}</span>
+                            <span v-if="personMoreData.property">{{personMoreData.property.label}}</span>
                         </div>
                         <div>
                             <span>性别：</span>
@@ -184,15 +219,17 @@
                     </div>
                     <div>
                         <span>所属单位：</span>
-                        <span>{{personMoreData.department}}</span>
+                        <span>{{personMoreData.orgname}}</span>
                     </div>
                     <div>
                         <span>人员当前状态：</span>
-                        <span>{{personMoreData.cpxondition}}</span>
+                        <span v-if="personMoreData.cpxondition">{{personMoreData.cpxondition}}</span>
+                        <span v-else>无</span>
                     </div>
                     <div>
                         <span>备注：</span>
-                        <span>{{personMoreData.remark}}</span>
+                        <span v-if="personMoreData.remark">{{personMoreData.remark}}</span>
+                        <span v-else>无备注</span>
                     </div>
                 </div>
             </div>
@@ -204,7 +241,7 @@
                 </el-button>
                 <el-button type="primary"
                            v-if="changeMSG"
-                           @click="dialogVisible = false">
+                           @click="submitEditForm">
                     提 交
                 </el-button>
                 <el-button type="primary"
@@ -233,9 +270,13 @@
                         <el-input v-model="personData.pid"></el-input>
                     </el-form-item>
                     <el-form-item label="证件类型：">
-                        <el-select v-model="personData.pidtype" placeholder="请选择证件类型">
-                            <el-option label="身份证" value="身份证"></el-option>
-                            <el-option label="学生证" value="学生证"></el-option>
+                        <el-select v-model="submitPidType" placeholder="请选择证件类型">
+                            <el-option :label="item.label"
+                                       :key="item.value"
+                                       :value="item.value"
+                                       v-for="item in personData.pidtype"
+                                       :selected="item.selected">
+                            </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="出生日期：">
@@ -245,16 +286,43 @@
                         <el-input v-model="personData.military"></el-input>
                     </el-form-item>
                     <el-form-item label="民族：">
-                        <el-input v-model="personData.nation"></el-input>
+                        <el-select v-model="submitNation" placeholder="请选择民族">
+                            <el-option :label="item.label"
+                                       :key="item.value"
+                                       :value="item.value"
+                                       v-for="item in personData.nation">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="警衔：">
-                        <el-input v-model="personData.level"></el-input>
+                        <el-select v-model="submitLevel" placeholder="请选择警衔">
+                            <el-option :label="item.label"
+                                       :value="item.value"
+                                       :key="item.value"
+                                       v-for="item in personData.level"
+                                       :selected="item.selected">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="职务：">
-                        <el-input v-model="personData.duty"></el-input>
+                        <el-select v-model="submitDuty" placeholder="请选择职务">
+                            <el-option :label="item.label"
+                                       :key="item.value"
+                                       :value="item.value"
+                                       v-for="item in personData.duty"
+                                       :selected="item.selected">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="人员性质：">
-                        <el-input v-model="personData.property"></el-input>
+                        <el-select v-model="submitProperty" placeholder="请选择人员性质">
+                            <el-option :label="item.label"
+                                       :key="item.value"
+                                       :value="item.value"
+                                       v-for="item in personData.property"
+                                       :selected="item.selected">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="性别：">
                         <el-input v-model="personData.sex"></el-input>
@@ -263,7 +331,14 @@
                         <el-input v-model="personData.nativeplace"></el-input>
                     </el-form-item>
                     <el-form-item label="所属单位：">
-                        <el-input v-model="personData.department"></el-input>
+                        <el-select v-model="submitOrgid" placeholder="请选择人员性质">
+                        <el-option :label="item.label"
+                                   :key="item.value"
+                                   :value="item.value"
+                                   v-for="item in personData.orgid"
+                                   :selected="item.selected">
+                        </el-option>
+                    </el-select>
                     </el-form-item>
                     <el-form-item label="人员当前状态：">
                         <el-input v-model="personData.cpxondition"></el-input>
@@ -277,7 +352,7 @@
                      class="dialog-footer">
                 <el-form-item>
                     <el-button type="primary"
-                               @click="submitForm('personData')">
+                               @click="submitAddForm('personData')">
                         提 交
                     </el-button>
                     <el-button @click="addPerson = false">
@@ -303,6 +378,8 @@
     var REST_UserLog_delete = REST_MAIN + 'PersonInfo/delete';
     var REST_UserLog_detail = REST_MAIN + 'PersonInfo/detail';
     var REST_UserLog_editDetail = REST_MAIN + 'PersonInfo/editDetail';
+    var REST_UserLog_personEditl = REST_MAIN + 'PersonInfo/personEdit';
+    var REST_UserLog_addDetail = REST_MAIN + 'PersonInfo/addDetail';
 
 
     export default {
@@ -335,15 +412,30 @@
                 dialogVisible: false,
                 addPerson: false,
                 userData: [],
-                personData:{},
+                personData: {},
+                //form数据上传值
+                submitPidType: '',
+                submitNation: '',
+                submitLevel: '',
+                submitDuty: '',
+                submitOrgid: '',
+                submitProperty: '',
                 personEditData: {},
+                personSubmitData: {},
                 personMoreData: {},
+                nation: [{value: "1", label: "汉族", selected: true}, {value: "2", label: "蒙古族", selected: false}],
                 multipleSelection: []
             }
         }
         ,
         methods: {
 //            重置页面
+            getSelected(dataArr){
+                let arr = dataArr.filter((val, idx) => {
+                    return val.selected
+                });
+                return arr[0];
+            },
             openMSG(msg) {
                 this.$alert(msg, '信息提示', {
                     confirmButtonText: '确定'
@@ -475,21 +567,31 @@
                 this.changeMSG = false;
 
                 let _self = this;
+
                 axios.get(`${REST_UserLog_detail}/pid/${row.pid}`)
                     .then(function (res) {
                         _self.personMoreData = res.data;
-                    }).catch(function (error) {
-                    console.log(error);
-                });
+//                        console.log(res);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                axios.get(`${REST_UserLog_editDetail}/pid/${_self.curRow.pid}`)
+                    .then(function (res) {
+                        _self.personEditData = res.data;
+                        _self.submitPidType = _self.getSelected(res.data.pidtype).value;
+                        _self.submitNation = _self.getSelected(res.data.nation).value;
+                        _self.submitLevel = _self.getSelected(res.data.level).value;
+                        _self.submitDuty = _self.getSelected(res.data.duty).value;
+                        _self.submitProperty = _self.getSelected(res.data.property).value;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             },
             editDetailFn(){
-//                this.changeMSG = true;
-//                axios.get(`${REST_UserLog_detail}/pid/${this.curRow}`)
-//                    .then(function (res) {
-//                        _self.personMoreData = res.data;
-//                    }).catch(function (error) {
-//                    console.log(error);
-//                });
+                this.changeMSG = true;
             },
             resetForm(formName){
                 this.addPerson = false;
@@ -499,7 +601,66 @@
                     this.personData[val] = "";
                 }
             },
-            submitForm(formName){
+            submitEditForm(formName){
+                this.dialogVisible = false;
+                let _self = this;
+                //set the editData
+                this.personEditData.pidtype = _self.submitPidType;
+                this.personEditData.nation = _self.submitNation;
+                this.personEditData.level = _self.submitLevel;
+                this.personEditData.duty = _self.submitDuty;
+                this.personEditData.property = _self.submitProperty;
+
+                axios.post(REST_UserLog_personEditl, qs.stringify(_self.personEditData))
+                    .then(function (response) {
+                        //清空数据
+                        if (response.data.state === '307101') {
+                            _self.$alert('修改成功', '消息提示', {
+                                    confirmButtonText: '确定',
+                                    callback: () => {
+                                        _self.getPage(_self.currentPage);
+                                    }
+                                }
+                            )
+                        } else {
+                            _self.$alert('修改失败', '消息提示', {
+                                    confirmButtonText: '确定'
+                                }
+                            )
+                        }
+//                        console.log(response.data)
+                        _self.submitPidType = '';
+                        _self.submitNation = '';
+                        _self.submitLevel = '';
+                        _self.submitDuty = '';
+                        _self.submitProperty = '';
+//                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        _self.$alert(error, '消息提示', {
+                                confirmButtonText: '确定'
+                            }
+                        )
+                    });
+            },
+            getPageEvent(page){
+                this.getPage(page);
+            },
+            addPersonFn(){
+                this.addPerson = true;
+
+                let _self = this;
+                axios.get(REST_UserLog_addDetail)
+                    .then(function (res) {
+                        _self.personData = res.data;
+                        console.log(res.data)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+            },
+            submitAddForm(){
                 this.addPerson = false;
                 let _self = this;
                 axios.post(REST_UserLog_personAdd, qs.stringify(_self.personData))
@@ -509,10 +670,8 @@
                     .catch(function (error) {
                         console.log(error);
                     });
-            },
-            getPageEvent(page){
-                this.getPage(page);
             }
+
         },
 
     }
