@@ -12,6 +12,7 @@
                 tooltip-effect="dark"
                 style="width: 100%"
                 @selection-change="handleSelectionChange"
+                v-if="userData.length"
         >
             <el-table-column
                     type="selection"

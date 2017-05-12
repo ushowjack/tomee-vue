@@ -1,14 +1,6 @@
 <template>
     <div id="app">
-        <t-header></t-header>
-        <div class="context">
-            <t-sidebar></t-sidebar>
-            <div class="side-context">
-                <t-breadcrumb></t-breadcrumb>
-                <t-contextbox></t-contextbox>
-                <!--<router-view></router-view>-->
-            </div>
-        </div>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -21,7 +13,7 @@
 
     export default {
         name: 'app',
-        components:{
+        components: {
             THeader,
             TSidebar,
             TBreadcrumb,
@@ -31,41 +23,16 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-    @import "./common/style/common";
-    @import "./common/mixins/normalize";
-    @import "./common/mixins/variable";
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        position: relative;
-        width: 100%;
+    @import "common/mixins/variable.less";
+    html,
+    body{
         height: 100%;
-        min-width: @min-width;
+        width: 100%;
+        font-family: @body-font-family;
     }
-
-    .context{
-        position: relative;
-        max-width: 100%;
-        height: ~'calc(100% - 153px)';
-        margin: 0 auto;
-        .side-context{
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: ~'calc(100% - 350px)';
-            height: 100%;
-        }
-        .search{
-            float: right;
-        }
+    .login {
+        height: 950px;
+        width: 100%;
+        background-image: linear-gradient(90deg, #429cfe, #64b4fd);
     }
-    .el-breadcrumb{
-        background-color: #f5f5f5;
-        padding: 15px;
-        font-size: @input-font-size;
-    }
-
 </style>

@@ -5,7 +5,7 @@
 
         <ul class="login-state">
             <li><a href="#">宝安大队</a></li>
-            <li><a href="javascript:;">退出</a></li>
+            <li><a href="/#/login">退出</a></li>
         </ul>
     </header>
 </template>
