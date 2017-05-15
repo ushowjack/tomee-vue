@@ -333,13 +333,13 @@
                     </el-form-item>
                     <el-form-item label="所属单位：">
                         <el-select v-model="submitOrgid" placeholder="请选择人员性质">
-                        <el-option :label="item.label"
-                                   :key="item.value"
-                                   :value="item.value"
-                                   v-for="item in personData.orgid"
-                                   :selected="item.selected">
-                        </el-option>
-                    </el-select>
+                            <el-option :label="item.label"
+                                       :key="item.value"
+                                       :value="item.value"
+                                       v-for="item in personData.orgid"
+                                       :selected="item.selected">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="人员当前状态：">
                         <el-input v-model="personData.cpxondition"></el-input>
@@ -367,7 +367,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-    import Vue from  "vue"
+
+
     import TSearch from "../table/search.vue"
     import TPagination from "../table/pagination.vue"
     import axios from 'axios'

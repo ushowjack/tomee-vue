@@ -12,7 +12,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-
+/*    import Vue from 'vue'
+    import {Pagination} from 'element-ui'
+    Vue.use(Pagination)*/
 
     export default {
         props: {

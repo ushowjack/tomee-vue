@@ -20,7 +20,7 @@
                     <el-menu-item index="/日常管理/人员外出申请管理">人员外出申请管理</el-menu-item>
                     <el-menu-item index="/日常管理/人员上下排班管理">人员上下排班管理</el-menu-item>
                 </el-menu-item-group>
-            </el-submenu index="3">
+            </el-submenu>
             <el-submenu index="3">
                 <template slot="title">岗哨管理</template>
                 <el-menu-item-group>
@@ -45,12 +45,15 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import sidebarItem from "./sidebarItem.vue"
+    //    import sidebarItem from "./sidebarItem.vue"
+/*    import Vue from 'vue'
+    import {Menu, Submenu, MenuItem, MenuItemGroup} from 'element-ui'
+    Vue.use(Menu)
+    Vue.use(Submenu)
+    Vue.use(MenuItem)
+    Vue.use(MenuItemGroup)*/
 
     export default {
-        components: {
-            sidebarItem
-        },
         data(){
             return {}
         },
@@ -76,7 +79,7 @@
     }
 
     .el-submenu {
-        .el-submenu__title{
+        .el-submenu__title {
             font-size: 18px;
         }
         li {
@@ -90,36 +93,35 @@
     @import "../../common/mixins/reset-ul";
     //侧边栏主框架
 
-
     //主菜单样式
-/*     .mainmenu {
-         height: 100%;
-         .reset-ul();
-         .mainlist {
-             width: 100%;
-             & > a {
-                 display: block;
-                 text-align: left;
-                 width: ~"calc(100% - @{side-bar-padding})";
-                 height: @mainmenu-item-height;
-                 line-height: @mainmenu-item-height;
-                 padding-left: @mainmenu-item-height;
-                 color: #ffffff;
-                 font-size: 18px;
-                 .opacity(0.8);
-                 transition: 0.6s all;
-                 &:hover {
-                     background: lighten(#353b49, 10%);
-                 }
-                 &.active {
-                     background: lighten(#353b49, 30%);
-                     font-size: 20px;
-                     height: @mainmenu-item-height + 4px;
-                     line-height: @mainmenu-item-height + 4px;
-                     .opacity(1);
+    /*     .mainmenu {
+             height: 100%;
+             .reset-ul();
+             .mainlist {
+                 width: 100%;
+                 & > a {
+                     display: block;
+                     text-align: left;
+                     width: ~"calc(100% - @{side-bar-padding})";
+                     height: @mainmenu-item-height;
+                     line-height: @mainmenu-item-height;
+                     padding-left: @mainmenu-item-height;
+                     color: #ffffff;
+                     font-size: 18px;
+                     .opacity(0.8);
+                     transition: 0.6s all;
+                     &:hover {
+                         background: lighten(#353b49, 10%);
+                     }
+                     &.active {
+                         background: lighten(#353b49, 30%);
+                         font-size: 20px;
+                         height: @mainmenu-item-height + 4px;
+                         line-height: @mainmenu-item-height + 4px;
+                         .opacity(1);
+                     }
                  }
              }
-         }
-     }*/
+         }*/
 
 </style>

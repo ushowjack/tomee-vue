@@ -4,15 +4,20 @@
         <img src="./loginTitle.png" alt="淘米智慧营房系统">
 
         <ul class="login-state">
-            <li><a href="#">宝安大队</a></li>
-            <li><a href="/#/login">退出</a></li>
+            <li><span>宝安大队</span></li>
+            <li><span @click="loginOut">退出</span></li>
         </ul>
     </header>
 </template>
 
 <script type="text/ecmascript-6">
     export default {
-
+        methods:{
+            loginOut(){
+                this.$router.push("/login")
+//                console.log(this.$router.currentRoute.fullPath)
+            }
+        }
     }
 </script>
 
@@ -28,8 +33,8 @@
         height: @header-height;
         position: relative;
         background: @header-bg;
-        background: #64b4fd@ie8;
-        img{
+        background: #64b4fd @ie8;
+        img {
             display: block;
         }
         img:nth-child(1) {
@@ -53,12 +58,15 @@
                     border-left: none;
                 }
             }
-            a {
+            span {
                 width: 100%;
                 display: block;
                 font-family: @body-font-family;
                 color: #ffffff;
                 text-align: center;
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
     }

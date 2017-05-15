@@ -274,7 +274,8 @@
     </div>
 </template>
 <script>
-    import Vue from "vue"
+
+
     import TSearch from "../table/search.vue"
     import TPagination from "../table/pagination.vue"
 

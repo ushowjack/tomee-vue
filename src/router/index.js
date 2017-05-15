@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import main from '../Main.vue'
 import login from '../Login.vue'
+import Err404 from '../404.vue'
 const innerPersonMSG = resolve => require(['../components/context/innerPersonMSG.vue'], resolve);
 const symUser = resolve => require(['../components/context/symUser.vue'], resolve);
 const quitPerson = resolve => require(['../components/context/quitPerson.vue'], resolve);
@@ -31,6 +32,7 @@ Vue.use(Router)
 
 const router = new Router({
     routes: [
+        { path: '/404', component: Err404, hidden: true },
         {
             path: '/',
             name: '主页',
@@ -93,7 +95,9 @@ const router = new Router({
             path: '/login',
             name: '登录页',
             component: login,
-        }
+        },
+        { path: '/', redirect: '/login', hidden: true },
+        { path: '*', redirect: '/404', hidden: true }
 
     ]
 })

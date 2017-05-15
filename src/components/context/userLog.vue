@@ -107,6 +107,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+
+
     import TSearch from "../table/search.vue"
     import TPagination from "../table/pagination.vue"
 

@@ -12,9 +12,13 @@
 </template>
 
 <script>
+/*    import Vue from 'vue'
+    import {Input} from 'element-ui'
+    Vue.use(Input)*/
+
     import axios from 'axios'
+
     var REST_MAIN = 'http://127.0.0.1/SmartBarracksPHP_Code/';
-//    var REST_MAIN = '';
     var REST_UserLog_index = 'Userlog/index';
 
     export default {
