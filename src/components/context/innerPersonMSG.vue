@@ -548,7 +548,12 @@
                                     message: response.data.msg
                                 });
                             } else {
+//                                alert("1")
                                 _self.deleteAllSelectionFn(data);
+                                _self.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
                             }
                         })
                         .catch(function (error) {
@@ -581,6 +586,8 @@
 
                 axios.get(`${REST_UserLog_editDetail}/pid/${_self.curRow.pid}`)
                     .then(function (res) {
+                        console.log(res.data);
+
                         _self.personEditData = res.data;
                         _self.submitPidType = _self.getSelected(res.data.pidtype).value;
                         _self.submitNation = _self.getSelected(res.data.nation).value;

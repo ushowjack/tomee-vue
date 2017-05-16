@@ -30,3 +30,11 @@
 [0505/203518.518:ERROR:process_reader_win.cc(233)] ReadMemory at 0x21600e40080 of 32768 bytes failed: 仅完成部分的 ReadProcessMemory 或 WriteProcessMemory 请求。 (0x12B)
 [0505/203518.518:WARNING:pe_image_annotations_reader.cc(65)] could not read simple annotations from C:\Program Files (x86)\Google\Chrome\Application\57.0.2987.133\chrome_elf.dll
 [0509/140808.112:ERROR:http_transport_win.cc(50)] WinHttpSendRequest: 操作超时  (0x2EE2)
+[0515/134925.994:ERROR:process_info.cc(625)] range at 0xb972609400000000, size 0x131 fully unreadable
+[0515/134926.019:ERROR:process_info.cc(625)] range at 0xb97260fc00000000, size 0x131 fully unreadable
+[0515/134926.019:ERROR:process_info.cc(625)] range at 0x0, size 0x131 fully unreadable
+[0515/135135.043:ERROR:http_transport_win.cc(50)] WinHttpSendRequest: 操作超时  (0x2EE2)
+[0515/135315.442:ERROR:process_info.cc(625)] range at 0x14595b6c00000000, size 0x19f fully unreadable
+[0515/135315.442:ERROR:process_info.cc(625)] range at 0x14595b8c00000000, size 0x19f fully unreadable
+[0515/135315.442:ERROR:process_info.cc(625)] range at 0x0, size 0x19f fully unreadable
+[0515/135316.054:ERROR:process_info.cc(373)] UncheckedAllocate

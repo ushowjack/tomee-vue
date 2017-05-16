@@ -11,13 +11,22 @@
                 <form>
                     <div class="items-list">
                         <div class="input-item">
-                            <input type="text" name="userName" placeholder="用户名"/>
+                            <input type="text"
+                                   name="userName"
+                                   v-model="userName"
+                                   placeholder="用户名"/>
                         </div>
                         <div class="input-item">
-                            <input type="password" name="password" placeholder="密码"/>
+                            <input type="password"
+                                   name="password"
+                                   v-model="password"
+                                   placeholder="密码"/>
                         </div>
                         <div class="input-item">
-                            <input type="text" name="captcha" placeholder="验证码"/>
+                            <input type="text"
+                                   name="captcha"
+                                   v-model="captcha"
+                                   placeholder="验证码"/>
                             <img :src="captchaSrc"
                                  alt="captcha"
                                  id="captchaIMG"
@@ -25,10 +34,13 @@
                         </div>
                     </div>
                     <div class="forget">
-                        <span class=""></span>
+                        <span :class="loginTip">{{tip}}</span>
                         <a href="#">忘记密码</a>
                     </div>
-                    <button type="button" name="login" id="login">
+                    <button type="button"
+                            name="login"
+                            @click="checkLogin"
+                            id="login">
                         <span>登&nbsp;&nbsp;&nbsp;&nbsp;录</span>
                     </button>
                 </form>
@@ -41,13 +53,71 @@
 </template>
 
 <script type="text/ecmascript-6">
+    import axios from 'axios'
+    import qs from 'qs'
+    import { mapGetters } from 'vuex'
+    import { mapActions } from 'vuex'
+
+
+    const REST_MAIN_CAPTCHA = 'http://127.0.0.1/SmartBarracksPHP_Code/Login/checkCaptcha';
+    const REST_MAIN_Login = 'http://127.0.0.1/SmartBarracksPHP_Code/Login/checkLogin';
+
     export default {
         data(){
             return {
+                tip: '',
+                captcha: '',
+                password: '',
+                userName: '',
+                loginTip: '',
                 captchaSrc: 'http://127.0.0.1/SmartBarracksPHP_Code/Login/verify'
             }
         },
+        computed:{
+            ...mapGetters([
+                'getToken'
+            ])
+        },
         methods: {
+            ...mapActions([
+                'loginIn' // 映射 this.loginIn() 为 this.$store.dispatch('increment')
+            ]),
+            checkLogin(){
+//                this.$router.push("./人员信息管理/内部人员信息管理")
+                axios.post(REST_MAIN_Login, qs.stringify({
+                    loginname: this.userName,
+                    password: this.password,
+                    captcha: this.captcha,
+                })).then(res => {
+                        if (res.data.state === "1010101")  {
+                            this.tip = '登陆成功，请稍等';
+                            this.loginTip = 'success';
+                            this.loginIn(res.data.token);
+                            console.log(this.getToken);
+                        }else{
+                            console.log(res.data.msg);
+                            this.tip = res.data.msg;
+                            this.loginTip = 'warn';
+                        }
+                    }
+                )
+            },
+            checkCaptcha(){
+                if (this.captcha.length > 3) {
+                    axios.get(`${REST_MAIN_CAPTCHA}/captcha/${this.captcha}`)
+                        .then(response => {
+                            this.tip = response.data.msg;
+                            this.loginTip = response.data.state !== "1030100" ? 'success' : 'warn';
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                } else {
+                    this.tip = '';
+
+                }
+
+            },
             GetDate() {
                 let now = new Date();
                 let year = now.getFullYear();
