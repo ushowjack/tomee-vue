@@ -4,7 +4,7 @@
             <el-button @click="deleteAllSelection('userData')">批量删除</el-button>
             <el-button @click="addUser = true">添加管理员</el-button>
         </div>
-        <t-search></t-search>
+        <t-search @searchMsg="searchMsg"></t-search>
         <el-table
                 :data="userData"
                 border
@@ -18,7 +18,7 @@
             </el-table-column>
             <el-table-column
                     type="index"
-                    width="50">
+                    width="80">
             </el-table-column>
             <el-table-column
                     :sortable=true
@@ -80,7 +80,7 @@
                 <el-form
                         label-position="right"
                         label-width="120px"
-                        :rules="rules2"
+                        :rules="addFormRules"
                         :model="addForm"
                         ref="addForm">
                     <el-form-item label="系统用户名："
@@ -144,37 +144,84 @@
                 title="密码重置"
                 v-model="resetPassword"
                 size="tiny"
-                @close="resetForm('addForm','resetPassword')">
+                @close="resetForm('resetPass','resetPassword')">
             <div class="dialog-context"
                  style="position: relative; padding: 0 20px;">
                 <el-form
                         label-position="right"
                         label-width="120px"
-                        :rules="rules2"
-                        :model="addForm"
-                        ref="addForm">
+                        :rules="resetFormRules"
+                        :model="resetPass"
+                        ref="resetPass">
+                    <el-form-item label="用户名："
+                                  class="add">
+                        <el-input :disabled="true"
+                                  v-model="resetPass.loginname">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="密码："
+                                  prop="password"
+                                  class="add">
+                        <el-input type=""
+                                  v-model="resetPass.password"
+                                  auto-complete="off">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="确认密码："
+                                  prop="checkPassword"
+                                  class="add">
+                        <el-input type=""
+                                  v-model="resetPass.checkPassword"
+                                  auto-complete="off">
+                        </el-input>
+                    </el-form-item>
                 </el-form>
             </div>
             <el-form slot="footer">
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('addForm','resetPassword')">提 交</el-button>
-                    <el-button @click="resetForm('addForm','resetPassword')">取 消</el-button>
+                    <el-button type="primary" @click="submitForm('resetPass','resetPassword')">提 交</el-button>
+                    <el-button @click="resetPassword = false">取 消</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
+        <!--<el-dialog-->
+        <!--title="密码重置"-->
+        <!--v-model="resetPassword"-->
+        <!--size="tiny"-->
+        <!--@close="resetForm('addForm','resetPassword')">-->
+        <!--<div class="dialog-context"-->
+        <!--style="position: relative; padding: 0 20px;">-->
+        <!--<el-form-->
+        <!--label-position="right"-->
+        <!--label-width="120px"-->
+        <!--:rules="rules2"-->
+        <!--:model="addForm"-->
+        <!--ref="addForm">-->
+        <!--</el-form>-->
+        <!--</div>-->
+        <!--<el-form slot="footer">-->
+        <!--<el-form-item>-->
+        <!--<el-button type="primary" @click="submitForm('addForm','resetPassword')">提 交</el-button>-->
+        <!--<el-button @click="resetForm('addForm','resetPassword')">取 消</el-button>-->
+        <!--</el-form-item>-->
+        <!--</el-form>-->
+        <!--</el-dialog>-->
 
     </div>
 </template>
 <script type="text/ecmascript-6">
 
     var REST_MAIN = '/api/';
-    var REST_UserLog_Index = REST_MAIN + 'User/Index';
+    var REST_SymUser_Index = REST_MAIN + 'User/Index';
+    var REST_SymUser_Search = REST_MAIN + 'User/Index';
+    var REST_SymUser_Delete = REST_MAIN + 'User/Delete';
 
 
     import TSearch from "../table/search.vue"
     import TPagination from "../table/pagination.vue"
     import axios from "axios"
-//    import fetch from '../../utils/fetch'
+    import qs from 'qs'
+    //    import fetch from '../../utils/fetch'
 
     export default {
         components: {
@@ -183,7 +230,7 @@
         },
 
         data() {
-            var validatePass = (rule, value, callback) => {
+            var addPass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入密码'));
                 } else {
@@ -193,7 +240,7 @@
                     callback();
                 }
             };
-            var validatePass2 = (rule, value, callback) => {
+            var addPass2 = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请再次输入密码'));
                 } else if (value !== this.addForm.password) {
@@ -202,16 +249,44 @@
                     callback();
                 }
             };
+            var resetPass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                } else {
+                    if (this.resetPass.checkPassword !== '') {
+                        this.$refs.resetPass.validateField('checkPassword');
+                    }
+                    callback();
+                }
+            };
+            var resetPass2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.resetPass.password) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
             return {
+                search: '',
                 currentPage: 1,
                 pageSize: 10,
                 total: 1,
-                rules2: {
+                addFormRules: {
                     password: [
-                        {validator: validatePass, trigger: 'blur'}
+                        {validator: addPass, trigger: 'blur'}
                     ],
                     checkPassword: [
-                        {validator: validatePass2, trigger: 'blur'}
+                        {validator: addPass2, trigger: 'blur'}
+                    ]
+                },
+                resetFormRules: {
+                    password: [
+                        {validator: resetPass, trigger: 'blur'}
+                    ],
+                    checkPassword: [
+                        {validator: resetPass2, trigger: 'blur'}
                     ]
                 },
                 curIdx: 0,
@@ -219,6 +294,10 @@
                 changeMSG: false,
                 addUser: false,
                 resetPassword: false,
+                resetPass: {
+                    'password': "",
+                    'checkPassword': ""
+                },
                 addForm: {
                     'loginname': "",     //用户登录名
                     'authority': "",         //用户权限
@@ -227,32 +306,7 @@
                     'password': "",
                     'checkPassword': ""
                 },
-                userData: [
-                    {
-                        'loginname': "1",     //用户登录名
-                        'authority': "werye",         //用户权限
-                        'department': "rhgwe",        //用户所属单位
-                        'remark': "whgeh",           //备注
-                    },
-                    {
-                        'loginname': "2",     //用户登录名
-                        'authority': "werye",         //用户权限
-                        'department': "rhgwe",        //用户所属单位
-                        'remark': "whgeh",           //备注
-                    },
-                    {
-                        'loginname': "3",     //用户登录名
-                        'authority': "werye",         //用户权限
-                        'department': "rhgwe",        //用户所属单位
-                        'remark': "whgeh",           //备注
-                    },
-                    {
-                        'loginname': "4",     //用户登录名
-                        'authority': "werye",         //用户权限
-                        'department': "rhgwe",        //用户所属单位
-                        'remark': "whgeh",           //备注
-                    },
-                ],
+                userData: [],
                 personMoreData: [
                     {
                         'name': "sfgg",                      //姓名
@@ -344,10 +398,8 @@
             }
         },
         created(){
-            axios.get(REST_UserLog_Index)
+            axios.get(REST_SymUser_Index)
                 .then(res => {
-//                    console.log(response.data);
-//                    console.log(_self.userData)
                     this.userData = res.data.data;
                     this.total = res.data.total;
                 })
@@ -360,19 +412,62 @@
                 const getSearch = this.search ? `search/${this.search}` : '';
                 axios.get(`${url}/p/${page}/${getSearch}`)
                     .then(res => {
-//                      console.log(response.data);
-//                      console.log(_self.userData)
-                        _self.userData = res.data.data;
-                        _self.total = res.data.total;
+                        this.userData = res.data.data;
+                        this.total = res.data.total;
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             },
-            getPageEvent(page, url){
-                this.getPage(page, url);
+            getPageEvent(page){
+                this.getPage(page, REST_SymUser_Index);
             },
+            searchMsg(val){
+                this.search = val;
+                axios.post(REST_SymUser_Search, qs.stringify({
+                    search: val
+                })).then(res => {
+//                    console.log(response.data);
+//                    console.log(_self.userData)
+                    this.currentPage = 1;
+                    if (res.data.state === '4010100') {
+                        this.userData = [];
+                        this.total = 10;
+                    } else {
+                        this.userData = res.data.data;
+                        this.total = res.data.total;
+                    }
 
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            deleteRow(index, rows){
+                this.$confirm('此操作将永久删除选中人员, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.post(REST_SymUser_Delete, qs.stringify({
+                            deleteName: rows[index].loginname
+                        })
+                    ).then(res => {
+                        this.getPageEvent(this.currentPage);
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            //get the selection
             handleSelectionChange(val) {
                 let Arr = [];
                 val.forEach(function (el) {
@@ -381,23 +476,87 @@
                 this.multipleSelection = Arr;
 //                console.log(this.multipleSelection);
             },
-            //            only use for userData ,this Array
-            deleteAllSelection(data){
-                let _self = this;
+            //get the unselected option and set it
+            deleteAllSelectionFn(data){
+//                console.log(this.multipleSelection);
 //              获取剩下的值
-                this[data] = this[data].filter(function (currentValue, currentIdx) {
-                    let getItem = true;
-                    _self.multipleSelection.forEach(function (val, idx) {
-                        if (currentValue === val) {
-                            getItem = false;
+                let DATA_LEN = this[data].length;
+                let MS_LEN = this.multipleSelection.length
+                let Arr = [];
+//              get the different value
+                for (let i = 0; i < DATA_LEN; i++) {
+                    let getObj = true;
+                    for (let j = 0; j < MS_LEN; j++) {
+                        if (this[data][i] === this.multipleSelection[j]) {
+                            getObj = false;
                         }
-                    })
-                    return getItem;
-                });
-
+                    }
+                    if (getObj) {
+                        Arr.push(this[data][i]);
+                    }
+                }
+//                console.log(Arr);
+//                over here is no problem
+                if (MS_LEN !== DATA_LEN) {
+                    this[data] = Arr;
+                } else {
+                    this[data] = [];
+                }
             },
+
+            //be a proxy for the delete function
+            deleteAllSelection(data){
+                let selectionArr = [];
+                this.multipleSelection.forEach(function (val) {
+                    selectionArr.push(val.loginname)
+                });
+                if (!selectionArr.length) {
+                    this.$message({
+                        showClose: true,
+                        message: '请选择需要删除的人员',
+                        type: 'warning'
+                    });
+                    return false;
+                }
+                this.$confirm('此操作将永久删除所有选中人员, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.post(REST_SymUser_Delete, qs.stringify({
+                            deleteName: selectionArr
+                        })
+                    ).then(res => {
+//                            console.log(response)
+                        if (res.data.state === '402100') {
+                            this.getPageEvent(this.currentPage);
+                            this.$message({
+                                message: res.data.msg
+                            });
+                        } else {
+                            this.deleteAllSelectionFn(data);
+                            this.$message({
+                                type: 'success',
+                                message: res.data.msg
+                            });
+                            this.getPageEvent(this.currentPage);
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+
+
+            //only use for userData ,this Array
             passwordReset(index, rows){
                 this.resetPassword = true;
+                this.resetPass.loginname = rows[index].loginname;
             },
 //          control the modal show
             handleEdit(index, row){
@@ -405,9 +564,6 @@
                 this.curRow = row;
                 this.addUser = true;
                 this.changeMSG = false;
-            },
-            deleteRow(index, rows) {
-                rows.splice(index, 1);
             },
             resetForm(formName, dialog){
                 this[dialog] = false;
