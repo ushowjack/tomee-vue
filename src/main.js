@@ -21,7 +21,6 @@ axios.interceptors.request.use(
     config => {
         if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
             config.headers.Authorization = `${token}`;
-            console.log('1')
             axios.defaults.headers.common['X-Tomee-Token'] = token;
         }
         return config;
@@ -41,7 +40,9 @@ Vue.config.productionTip = false
 //if the web has token ,then will don't route to login page
 //if the web does not have token ,then will redirect to login
 //but there are not cut the route if the user doesn't have the root
+
 const whiteList = ['/login'];// 不重定向白名单
+
 router.beforeEach((to, from, next) => {
     NProgress.start();
     if (Cookies.get('X-Tomee-Token')) {

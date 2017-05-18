@@ -3,7 +3,7 @@
         <div class="t-btn">
             <el-button @click="deleteAllSelection('userData')">批量删除</el-button>
             <el-button @click="addPersonFn">添加人员</el-button>
-            <el-button>批量添加</el-button>
+            <!--<el-button>批量添加</el-button>-->
         </div>
         <t-search @searchMsg="searchMsg"></t-search>
         <el-table
@@ -439,7 +439,15 @@
             ])
         },
         methods: {
-//            重置页面
+            //reset the submit data to clear the message of addForm
+            resetSubmit(){
+                this.submitPidType = '';
+                this.submitNation = '';
+                this.submitLevel = '';
+                this.submitDuty = '';
+                this.submitProperty = '';
+            },
+//          重置页面
             searchMsg(val){
                 this.search = val;
                 axios.post(REST_UserLog_search, qs.stringify({
@@ -474,7 +482,7 @@
             },
             getPage(page){
                 let _self = this;
-                const getSearch = this.search ? `search/${this.search}`: '';
+                const getSearch = this.search ? `search/${this.search}` : '';
                 axios.get(`${REST_UserLog_person}/p/${page}/${getSearch}`)
                     .then(function (response) {
 //                        console.log(response.data);
@@ -634,9 +642,9 @@
                 this.addPerson = false;
 //                解决在未知情况下无法获取Fields
 //                console.log(this.$refs[formName]);
-                for (let val in this.$refs[formName].model) {
-                    this.personData[val] = "";
-                }
+                this.$refs[formName].resetFields();
+                this.resetSubmit()
+
             },
             submitEditForm(formName){
                 this.dialogVisible = false;
@@ -666,12 +674,8 @@
                             )
                         }
 //                        console.log(response.data)
-                        _self.submitPidType = '';
-                        _self.submitNation = '';
-                        _self.submitLevel = '';
-                        _self.submitDuty = '';
-                        _self.submitProperty = '';
-//                        console.log(response);
+                        _self.resetSubmit()
+//                        console.log(_self.submitProperty);
                     })
                     .catch(function (error) {
                         _self.$alert(error, '消息提示', {
@@ -690,7 +694,7 @@
                 axios.get(REST_UserLog_addDetail)
                     .then(function (res) {
                         _self.personData = res.data;
-                        console.log(res.data)
+//                        console.log(res.data)
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -700,13 +704,37 @@
             submitAddForm(){
                 this.addPerson = false;
                 let _self = this;
-                axios.post(REST_UserLog_personAdd, qs.stringify(_self.personData))
-                    .then(function (response) {
-                        console.log(response);
+
+
+                this.personData.pidtype = _self.submitPidType;
+                this.personData.nation = _self.submitNation;
+                this.personData.level = _self.submitLevel;
+                this.personData.duty = _self.submitDuty;
+                this.personData.property = _self.submitProperty;
+
+                axios.post(REST_UserLog_personAdd, qs.stringify(this.personData))
+                    .then(res =>{
+                        if (res.data.state === '306101') {
+                            this.$alert(res.data.msg, '消息提示', {
+                                    confirmButtonText: '确定',
+                                    callback: () => {
+                                        this.getPage(this.currentPage);
+                                    }
+                                }
+                            )
+                        } else {
+                            this.$alert(res.data.msg, '消息提示', {
+                                    confirmButtonText: '确定'
+                                }
+                            )
+                        }
+                        this.getPage(1);
+
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
+                this.resetSubmit();
             }
 
         },

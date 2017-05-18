@@ -29,7 +29,7 @@ const mutations = {
 const actions = {
     loginIn({commit}, token){
         let nowTime = new Date();
-        nowTime = nowTime.getTime() + 600000;
+        nowTime = nowTime.getTime() + 60000000;
         const expiresTime = new Date(nowTime)
         //console.log(expiresTime)
         Cookies.set('X-Tomee-Token', token, {expires: expiresTime});

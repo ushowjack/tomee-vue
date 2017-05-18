@@ -66,8 +66,10 @@
                 </template>
             </el-table-column>
         </el-table>
-        <t-pagination></t-pagination>
-
+        <t-pagination :pageSize="pageSize"
+                      :total="total"
+                      @getPageEvent="getPageEvent">
+        </t-pagination>
         <el-dialog
                 title="添加管理员"
                 v-model="addUser"
@@ -163,11 +165,16 @@
 
     </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
+
+    var REST_MAIN = '/api/';
+    var REST_UserLog_Index = REST_MAIN + 'User/Index';
 
 
     import TSearch from "../table/search.vue"
     import TPagination from "../table/pagination.vue"
+    import axios from "axios"
+//    import fetch from '../../utils/fetch'
 
     export default {
         components: {
@@ -196,6 +203,9 @@
                 }
             };
             return {
+                currentPage: 1,
+                pageSize: 10,
+                total: 1,
                 rules2: {
                     password: [
                         {validator: validatePass, trigger: 'blur'}
@@ -209,14 +219,6 @@
                 changeMSG: false,
                 addUser: false,
                 resetPassword: false,
-                btnData: [
-                    {
-                        value: "批量删除"
-                    },
-                    {
-                        value: "添加管理员"
-                    },
-                ],
                 addForm: {
                     'loginname': "",     //用户登录名
                     'authority': "",         //用户权限
@@ -341,7 +343,36 @@
                 multipleSelection: []
             }
         },
+        created(){
+            axios.get(REST_UserLog_Index)
+                .then(res => {
+//                    console.log(response.data);
+//                    console.log(_self.userData)
+                    this.userData = res.data.data;
+                    this.total = res.data.total;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
         methods: {
+            getPage(page, url){
+                const getSearch = this.search ? `search/${this.search}` : '';
+                axios.get(`${url}/p/${page}/${getSearch}`)
+                    .then(res => {
+//                      console.log(response.data);
+//                      console.log(_self.userData)
+                        _self.userData = res.data.data;
+                        _self.total = res.data.total;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            getPageEvent(page, url){
+                this.getPage(page, url);
+            },
+
             handleSelectionChange(val) {
                 let Arr = [];
                 val.forEach(function (el) {
@@ -378,11 +409,11 @@
             deleteRow(index, rows) {
                 rows.splice(index, 1);
             },
-            resetForm(formName,dialog){
+            resetForm(formName, dialog){
                 this[dialog] = false;
                 this.$refs[formName].resetFields();
             },
-            submitForm(formName,dialog){
+            submitForm(formName, dialog){
                 this[dialog] = false;
             }
         }
