@@ -11,10 +11,15 @@
 </template>
 
 <script type="text/ecmascript-6">
+    import { mapActions } from 'vuex'
     export default {
-        methods:{
+        methods: {
+            ...mapActions([
+                'clearToken'
+            ]),
             loginOut(){
-                this.$router.push("/login")
+                this.clearToken();
+                this.$router.push("/login");
 //                console.log(this.$router.currentRoute.fullPath)
             }
         }

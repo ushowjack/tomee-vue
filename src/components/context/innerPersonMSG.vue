@@ -5,14 +5,13 @@
             <el-button @click="addPersonFn">添加人员</el-button>
             <el-button>批量添加</el-button>
         </div>
-        <t-search></t-search>
+        <t-search @searchMsg="searchMsg"></t-search>
         <el-table
                 :data="userData"
                 border
                 tooltip-effect="dark"
                 style="width: 100%"
                 @selection-change="handleSelectionChange"
-                v-if="userData.length"
         >
             <el-table-column
                     type="selection"
@@ -373,8 +372,11 @@
     import TPagination from "../table/pagination.vue"
     import axios from 'axios'
     import qs from 'qs'
+    import {mapGetters} from 'vuex'
 
-    var REST_MAIN = 'http://127.0.0.1/SmartBarracksPHP_Code/';
+
+    //    var REST_MAIN = 'http://127.0.0.1/SmartBarracksPHP_Code/';
+    var REST_MAIN = '/api/';
     var REST_UserLog_person = REST_MAIN + 'PersonInfo/person';
     var REST_UserLog_personAdd = REST_MAIN + 'PersonInfo/personAdd';
     var REST_UserLog_delete = REST_MAIN + 'PersonInfo/delete';
@@ -382,6 +384,7 @@
     var REST_UserLog_editDetail = REST_MAIN + 'PersonInfo/editDetail';
     var REST_UserLog_personEditl = REST_MAIN + 'PersonInfo/personEdit';
     var REST_UserLog_addDetail = REST_MAIN + 'PersonInfo/addDetail';
+    var REST_UserLog_search = REST_MAIN + 'PersonInfo/person';
 
 
     export default {
@@ -405,6 +408,7 @@
         },
         data() {
             return {
+                search: '',
                 currentPage: 1,
                 pageSize: 10,
                 total: 1,
@@ -428,10 +432,35 @@
                 nation: [{value: "1", label: "汉族", selected: true}, {value: "2", label: "蒙古族", selected: false}],
                 multipleSelection: []
             }
-        }
-        ,
+        },
+        computed: {
+            ...mapGetters([
+                'getToken'
+            ])
+        },
         methods: {
 //            重置页面
+            searchMsg(val){
+                this.search = val;
+                axios.post(REST_UserLog_search, qs.stringify({
+                    search: val
+                })).then(res => {
+//                    console.log(response.data);
+//                    console.log(_self.userData)
+                    this.currentPage = 1;
+                    if (res.data.state === '3010100') {
+                        this.userData = [];
+                        this.total = 10;
+                    } else {
+                        this.userData = res.data.data;
+                        this.total = res.data.total;
+                    }
+
+                })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
             getSelected(dataArr){
                 let arr = dataArr.filter((val, idx) => {
                     return val.selected
@@ -445,7 +474,8 @@
             },
             getPage(page){
                 let _self = this;
-                axios.get(REST_UserLog_person + `/p/${page}`)
+                const getSearch = this.search ? `search/${this.search}`: '';
+                axios.get(`${REST_UserLog_person}/p/${page}/${getSearch}`)
                     .then(function (response) {
 //                        console.log(response.data);
 //                    console.log(_self.userData)
@@ -541,7 +571,7 @@
                         })
                     )
                         .then(function (response) {
-                            console.log(response)
+//                            console.log(response)
                             if (response.data.state === '303100') {
                                 _self.getPage(_self.currentPage);
                                 _self.$message({
@@ -586,8 +616,6 @@
 
                 axios.get(`${REST_UserLog_editDetail}/pid/${_self.curRow.pid}`)
                     .then(function (res) {
-                        console.log(res.data);
-
                         _self.personEditData = res.data;
                         _self.submitPidType = _self.getSelected(res.data.pidtype).value;
                         _self.submitNation = _self.getSelected(res.data.nation).value;

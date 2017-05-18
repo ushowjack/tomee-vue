@@ -13,18 +13,22 @@
                         <div class="input-item">
                             <input type="text"
                                    name="userName"
+                                   @keyup.enter="checkLogin"
                                    v-model="userName"
                                    placeholder="用户名"/>
                         </div>
                         <div class="input-item">
                             <input type="password"
                                    name="password"
+                                   @keyup.enter="checkLogin"
                                    v-model="password"
                                    placeholder="密码"/>
                         </div>
                         <div class="input-item">
                             <input type="text"
                                    name="captcha"
+                                   @keyup.enter="checkLogin"
+                                   @keyup="checkCaptcha"
                                    v-model="captcha"
                                    placeholder="验证码"/>
                             <img :src="captchaSrc"
@@ -58,9 +62,12 @@
     import { mapGetters } from 'vuex'
     import { mapActions } from 'vuex'
 
+    //    var REST_MAIN = 'http://127.0.0.1/SmartBarracksPHP_Code/';
 
-    const REST_MAIN_CAPTCHA = 'http://127.0.0.1/SmartBarracksPHP_Code/Login/checkCaptcha';
-    const REST_MAIN_Login = 'http://127.0.0.1/SmartBarracksPHP_Code/Login/checkLogin';
+    var REST_MAIN = '/api/';
+
+    const REST_MAIN_CAPTCHA = `${REST_MAIN}Login/checkCaptcha`;
+    const REST_MAIN_Login = `${REST_MAIN}/Login/checkLogin`;
 
     export default {
         data(){
@@ -70,7 +77,7 @@
                 password: '',
                 userName: '',
                 loginTip: '',
-                captchaSrc: 'http://127.0.0.1/SmartBarracksPHP_Code/Login/verify'
+                captchaSrc: `${REST_MAIN}/Login/verify`
             }
         },
         computed:{
@@ -78,9 +85,13 @@
                 'getToken'
             ])
         },
+        watch:{
+
+        },
         methods: {
             ...mapActions([
-                'loginIn' // 映射 this.loginIn() 为 this.$store.dispatch('increment')
+                'loginIn', // 映射 this.loginIn() 为 this.$store.dispatch('increment')
+                'clearToken'
             ]),
             checkLogin(){
 //                this.$router.push("./人员信息管理/内部人员信息管理")
@@ -93,7 +104,7 @@
                             this.tip = '登陆成功，请稍等';
                             this.loginTip = 'success';
                             this.loginIn(res.data.token);
-                            console.log(this.getToken);
+                            this.$router.push('/人员信息管理/内部人员信息管理');
                         }else{
                             console.log(res.data.msg);
                             this.tip = res.data.msg;

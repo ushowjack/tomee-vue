@@ -1,6 +1,8 @@
 <template>
     <div class="side-bar">
         <el-menu theme="dark"
+                 :default-openeds='defaultOpeneds'
+                 :default-active="defaultActive"
                  :router=true
                  :unique-opened=true
                  class="el-menu-vertical-demo"
@@ -46,16 +48,24 @@
 </template>
 <script type="text/ecmascript-6">
     //    import sidebarItem from "./sidebarItem.vue"
-/*    import Vue from 'vue'
-    import {Menu, Submenu, MenuItem, MenuItemGroup} from 'element-ui'
-    Vue.use(Menu)
-    Vue.use(Submenu)
-    Vue.use(MenuItem)
-    Vue.use(MenuItemGroup)*/
+    /*    import Vue from 'vue'
+     import {Menu, Submenu, MenuItem, MenuItemGroup} from 'element-ui'
+     Vue.use(Menu)
+     Vue.use(Submenu)
+     Vue.use(MenuItem)
+     Vue.use(MenuItemGroup)*/
 
     export default {
         data(){
-            return {}
+            return {
+                router: ['人员信息管理','日常管理','岗哨管理','考勤管理','日志管理'],
+                defaultOpeneds: [1],
+                defaultActive: this.$route.fullPath
+            }
+        },
+        watch: {
+            // 如果路由有变化，会再次执行该方法
+            "$route": "hashchange"
         },
         methods: {
             handleOpen(key, keyPath) {
@@ -63,6 +73,12 @@
             },
             handleClose(key, keyPath) {
                 console.log(key, keyPath);
+            },
+            hashchange(){
+                const url = this.$route.fullPath;
+                const menu = url.split('/')[1];
+                this.defaultOpeneds[0] = this.router.indexOf(menu) + 1;
+                this.defaultActive = url;
             }
         }
     }

@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 Vue.use(Vuex)
 
 const state = {
-    token: Cookies.get('X-Tomee-Token')
+    token: ''
 };
 
 const getters = {
@@ -20,7 +20,6 @@ const getters = {
         return state.token;
     }
 };
-
 const mutations = {
     setToken: (state, token) => {
         state.token = token;
@@ -29,8 +28,16 @@ const mutations = {
 
 const actions = {
     loginIn({commit}, token){
-        Cookies.set('X-Tomee-Token', token);
+        let nowTime = new Date();
+        nowTime = nowTime.getTime() + 600000;
+        const expiresTime = new Date(nowTime)
+        //console.log(expiresTime)
+        Cookies.set('X-Tomee-Token', token, {expires: expiresTime});
         commit('setToken', token);
+    },
+    clearToken({commit}){
+        Cookies.set('X-Tomee-Token', '');
+        commit('setToken', '');
     }
 };
 
