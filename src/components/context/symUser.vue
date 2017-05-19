@@ -198,6 +198,7 @@
                         :model="resetMSGForm"
                         ref="resetMSGForm">
                     <el-form-item label="用户名："
+                                  :disabled="true"
                                   prop="loginname"
                                   class="add">
                         <el-input v-model="resetMSGForm.loginname">
@@ -234,6 +235,7 @@
     var REST_SymUser_Delete = REST_MAIN + 'User/Delete';
     var REST_SymUser_Reset = REST_MAIN + 'User/Reset';
     var REST_SymUser_Add = REST_MAIN + 'User/Add';
+    var REST_SymUser_Update = REST_MAIN + 'User/Update';
 
 
     import TSearch from "../table/search.vue"
@@ -254,7 +256,7 @@
             if (whiteForm.indexOf(val) !== -1) {
                 continue;
             }
-            !(formName[val].trim())? isUndefined = true : 0;
+            !(formName[val].trim()) ? isUndefined = true : 0;
         }
         return isUndefined;
     }
@@ -714,7 +716,7 @@
             },
             submitResetMSGForm(formName, dialog){
                 let formNameObj = this[formName];
-                if(isFinishForm(formNameObj, ['remark'])){
+                if (isFinishForm(formNameObj, ['remark'])) {
                     this.$message({
                         showClose: true,
                         message: '请填写完整信息',
@@ -723,6 +725,30 @@
                     return false;
                 }
                 this[dialog] = false;
+
+                axios.post(REST_SymUser_Update, qs.stringify(this[formName]))
+                    .then(res => {
+                        //清空数据
+                        console.log(res.data);
+                        return false;
+                        if (res.data.state === '4060101') {
+                            alert('OK')
+                        } else {
+                            successAlert()
+//                            this.$alert(res.data.msg, '消息提示', {
+//                                    confirmButtonText: '确定'
+//                                }
+//                            )
+                        }
+//
+                    })
+                    .catch(function (error) {
+                        this.$alert(error, '消息提示', {
+                                confirmButtonText: '确定'
+                            }
+                        )
+                    });
+
             },
 
             passwordReset(index, rows){
