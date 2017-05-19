@@ -84,6 +84,7 @@
                         :model="addForm"
                         ref="addForm">
                     <el-form-item label="系统用户名："
+                                  required
                                   prop="loginname"
                                   class="add">
                         <el-input v-model="addForm.loginname"
@@ -93,14 +94,14 @@
                     <el-form-item label="所属单位："
                                   prop="department"
                                   class="add">
-                        <el-select v-model="addForm.department"
-                                   placeholder="请选择证件类型"
-                                   class="add">
-                            <el-option label="身份证" value="身份证"></el-option>
-                            <el-option label="学生证" value="学生证"></el-option>
-                        </el-select>
+                        <el-input value="宝安大队"
+                                  v-model="addForm.department"
+                                  :disabled="true">
+
+                        </el-input>
                     </el-form-item>
                     <el-form-item label="密码："
+                                  required
                                   prop="password"
                                   class="add">
                         <el-input type="password"
@@ -109,6 +110,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item label="确认密码："
+                                  required
                                   prop="checkPassword"
                                   class="add">
                         <el-input type="password"
@@ -116,16 +118,16 @@
                                   auto-complete="off">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="用户权限："
-                                  prop="authority"
-                                  class="add">
-                        <el-input
-                                v-model="addForm.authority"
-                                type="authority"
-                                auto-complete="off">
+                    <!--<el-form-item label="用户权限："-->
+                    <!--prop="authority"-->
+                    <!--class="add">-->
+                    <!--<el-input-->
+                    <!--v-model="addForm.authority"-->
+                    <!--type="authority"-->
+                    <!--auto-complete="off">-->
 
-                        </el-input>
-                    </el-form-item>
+                    <!--</el-input>-->
+                    <!--</el-form-item>-->
                     <el-form-item label="备注："
                                   prop="remark"
                                   class="add">
@@ -135,7 +137,7 @@
             </div>
             <el-form slot="footer">
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('addForm','addUser')">提交</el-button>
+                    <el-button type="primary" @click="submitAddForm('addForm','addUser')">提交</el-button>
                     <el-button @click="addUser = false">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -162,7 +164,7 @@
                     <el-form-item label="密码："
                                   prop="password"
                                   class="add">
-                        <el-input type=""
+                        <el-input type="password"
                                   v-model="resetPass.password"
                                   auto-complete="off">
                         </el-input>
@@ -170,7 +172,7 @@
                     <el-form-item label="确认密码："
                                   prop="checkPassword"
                                   class="add">
-                        <el-input type=""
+                        <el-input type="password"
                                   v-model="resetPass.checkPassword"
                                   auto-complete="off">
                         </el-input>
@@ -179,33 +181,48 @@
             </div>
             <el-form slot="footer">
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('resetPass','resetPassword')">提 交</el-button>
+                    <el-button type="primary" @click="submitPasswordForm('resetPass','resetPassword')">提 交</el-button>
                     <el-button @click="resetPassword = false">取 消</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
-        <!--<el-dialog-->
-        <!--title="密码重置"-->
-        <!--v-model="resetPassword"-->
-        <!--size="tiny"-->
-        <!--@close="resetForm('addForm','resetPassword')">-->
-        <!--<div class="dialog-context"-->
-        <!--style="position: relative; padding: 0 20px;">-->
-        <!--<el-form-->
-        <!--label-position="right"-->
-        <!--label-width="120px"-->
-        <!--:rules="rules2"-->
-        <!--:model="addForm"-->
-        <!--ref="addForm">-->
-        <!--</el-form>-->
-        <!--</div>-->
-        <!--<el-form slot="footer">-->
-        <!--<el-form-item>-->
-        <!--<el-button type="primary" @click="submitForm('addForm','resetPassword')">提 交</el-button>-->
-        <!--<el-button @click="resetForm('addForm','resetPassword')">取 消</el-button>-->
-        <!--</el-form-item>-->
-        <!--</el-form>-->
-        <!--</el-dialog>-->
+        <el-dialog
+                title="修改信息"
+                v-model="resetMessage"
+                size="tiny">
+            <div class="dialog-context"
+                 style="position: relative; padding: 0 20px;">
+                <el-form
+                        label-position="right"
+                        label-width="120px"
+                        :model="resetMSGForm"
+                        ref="resetMSGForm">
+                    <el-form-item label="用户名："
+                                  prop="loginname"
+                                  class="add">
+                        <el-input v-model="resetMSGForm.loginname">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="所属单位："
+                                  class="add">
+                        <el-input :disabled="true"
+                                  v-model="resetMSGForm.department">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="备注："
+                                  prop="remark"
+                                  class="add">
+                        <el-input v-model="resetMSGForm.remark"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <el-form slot="footer">
+                <el-form-item>
+                    <el-button type="primary" @click="submitResetMSGForm('resetMSGForm','resetMessage')">提 交</el-button>
+                    <el-button @click="resetMessage=false">取 消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
 
     </div>
 </template>
@@ -215,6 +232,8 @@
     var REST_SymUser_Index = REST_MAIN + 'User/Index';
     var REST_SymUser_Search = REST_MAIN + 'User/Index';
     var REST_SymUser_Delete = REST_MAIN + 'User/Delete';
+    var REST_SymUser_Reset = REST_MAIN + 'User/Reset';
+    var REST_SymUser_Add = REST_MAIN + 'User/Add';
 
 
     import TSearch from "../table/search.vue"
@@ -223,6 +242,43 @@
     import qs from 'qs'
     //    import fetch from '../../utils/fetch'
 
+
+    function samePassword(formName) {
+        return formName['password'] === formName['checkPassword'];
+    }
+    function isFinishForm(formName, whiteArr) {
+        let isUndefined = false;
+        let whiteForm = whiteArr || [];
+
+        for (let val in formName) {
+            if (whiteForm.indexOf(val) !== -1) {
+                continue;
+            }
+            !(formName[val].trim())? isUndefined = true : 0;
+        }
+        return isUndefined;
+    }
+    function checkForm(formName, self, whiteArr) {
+        const formNameObj = self[formName];
+        if (isFinishForm(formNameObj, whiteArr)) {
+            self.$message({
+                showClose: true,
+                message: '请填写完整信息',
+                type: 'warning'
+            });
+
+            return true;
+        } else if (!samePassword(formNameObj)) {
+            self.$message({
+                showClose: true,
+                message: '输入密码不一致，请重新填写',
+                type: 'warning'
+            });
+            return true;
+        }
+    }
+
+
     export default {
         components: {
             TSearch,
@@ -230,6 +286,19 @@
         },
 
         data() {
+//            var PasswordValidator = function (formName) {
+//                const _self = this;
+//                return function(rule, value, callback) {
+//                    if (value === '') {
+//                        callback(new Error('请输入密码'));
+//                    } else {
+//                        if (_self[formName].checkPassword !== '') {
+//                            _self.$refs[formName].validateField('checkPassword');
+//                        }
+//                        callback();
+//                    }
+//                };
+//            }
             var addPass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入密码'));
@@ -291,20 +360,27 @@
                 },
                 curIdx: 0,
                 curRow: '',
-                changeMSG: false,
+                resetMessage: false,
                 addUser: false,
                 resetPassword: false,
                 resetPass: {
                     'password': "",
                     'checkPassword': ""
                 },
+                //todo: the department should save in the store,but undo now
                 addForm: {
                     'loginname': "",     //用户登录名
-                    'authority': "",         //用户权限
-                    'department': "",        //用户所属单位
+                    //'authority': "",         //用户权限
+                    'department': "宝安大队",        //用户所属单位
                     'remark': "",           //备注
                     'password': "",
                     'checkPassword': ""
+                },
+                resetMSGForm: {
+                    'loginname': "",     //用户登录名
+                    //'authority': "",         //用户权限
+                    'department': "宝安大队",        //用户所属单位
+                    'remark': "",           //备注
                 },
                 userData: [],
                 personMoreData: [
@@ -420,6 +496,7 @@
                     });
             },
             getPageEvent(page){
+                this.currentPage = page;
                 this.getPage(page, REST_SymUser_Index);
             },
             searchMsg(val){
@@ -503,7 +580,6 @@
                     this[data] = [];
                 }
             },
-
             //be a proxy for the delete function
             deleteAllSelection(data){
                 let selectionArr = [];
@@ -528,16 +604,22 @@
                         })
                     ).then(res => {
 //                            console.log(response)
-                        if (res.data.state === '402100') {
+                        if (res.data.state === '4020100') {
                             this.getPageEvent(this.currentPage);
                             this.$message({
                                 message: res.data.msg
                             });
-                        } else {
+                        } else if (res.data.state === '4020101') {
                             this.deleteAllSelectionFn(data);
                             this.$message({
                                 type: 'success',
                                 message: res.data.msg
+                            });
+                            this.getPageEvent(this.currentPage);
+                        } else {
+                            this.$message({
+                                type: 'warn',
+                                message: '后端有问题！'
                             });
                             this.getPageEvent(this.currentPage);
                         }
@@ -552,26 +634,106 @@
                 });
             },
 
+            //to submit the forms
+            submitPasswordForm(formName, dialog){
 
-            //only use for userData ,this Array
+                //to check if the value exists or not
+                const _self = this;
+                if (checkForm(formName, _self)) {
+                    return false;
+                }
+                this[dialog] = false;
+
+                axios.post(REST_SymUser_Reset, qs.stringify(this[formName]))
+                    .then(res => {
+                        //清空数据
+                        if (res.data.state === '4040101') {
+                            this.$alert(res.data.msg, '消息提示', {
+                                    confirmButtonText: '确定',
+                                    callback: () => {
+                                        this.getPageEvent(this.currentPage);
+                                    }
+                                }
+                            )
+                        } else {
+                            this.$alert(res.data.msg, '消息提示', {
+                                    confirmButtonText: '确定'
+                                }
+                            )
+                        }
+//
+                    })
+                    .catch(function (error) {
+                        this.$alert(error, '消息提示', {
+                                confirmButtonText: '确定'
+                            }
+                        )
+                    });
+            },
+            submitAddForm(formName, dialog){
+
+                //to check if the value exists or not
+                const _self = this;
+                if (checkForm(formName, _self, ['remark'])) {
+                    return false;
+                }
+                //to close the dialog
+                this[dialog] = false;
+
+                axios.post(REST_SymUser_Add, qs.stringify(this[formName]))
+                    .then(res => {
+                        //清空数据
+                        if (res.data.state === '4030101') {
+                            this.$alert(res.data.msg, '消息提示', {
+                                    confirmButtonText: '确定',
+                                    callback: () => {
+                                        this.getPageEvent(this.currentPage);
+                                    }
+                                }
+                            )
+                        } else {
+                            this.$alert(res.data.msg, '消息提示', {
+                                    confirmButtonText: '确定'
+                                }
+                            )
+                        }
+//
+                    })
+                    .catch(function (error) {
+                        this.$alert(error, '消息提示', {
+                                confirmButtonText: '确定'
+                            }
+                        )
+                    });
+            },
+
+            handleEdit(index, rows){
+                this.resetMessage = true;
+                this.resetMSGForm.loginname = rows['loginname'];
+                this.resetMSGForm.remark = rows['remark'];
+            },
+            submitResetMSGForm(formName, dialog){
+                let formNameObj = this[formName];
+                if(isFinishForm(formNameObj, ['remark'])){
+                    this.$message({
+                        showClose: true,
+                        message: '请填写完整信息',
+                        type: 'warning'
+                    });
+                    return false;
+                }
+                this[dialog] = false;
+            },
+
             passwordReset(index, rows){
                 this.resetPassword = true;
                 this.resetPass.loginname = rows[index].loginname;
             },
-//          control the modal show
-            handleEdit(index, row){
-                this.curIdx = index;
-                this.curRow = row;
-                this.addUser = true;
-                this.changeMSG = false;
-            },
+
             resetForm(formName, dialog){
                 this[dialog] = false;
                 this.$refs[formName].resetFields();
             },
-            submitForm(formName, dialog){
-                this[dialog] = false;
-            }
         }
     }
 </script>

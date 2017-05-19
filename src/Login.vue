@@ -59,8 +59,8 @@
 <script type="text/ecmascript-6">
     import axios from 'axios'
     import qs from 'qs'
-    import { mapGetters } from 'vuex'
-    import { mapActions } from 'vuex'
+    import {mapGetters} from 'vuex'
+    import {mapActions} from 'vuex'
 
     //    var REST_MAIN = 'http://127.0.0.1/SmartBarracksPHP_Code/';
 
@@ -80,14 +80,12 @@
                 captchaSrc: `${REST_MAIN}/Login/verify`
             }
         },
-        computed:{
+        computed: {
             ...mapGetters([
                 'getToken'
             ])
         },
-        watch:{
-
-        },
+        watch: {},
         methods: {
             ...mapActions([
                 'loginIn', // 映射 this.loginIn() 为 this.$store.dispatch('increment')
@@ -100,13 +98,14 @@
                     password: this.password,
                     captcha: this.captcha,
                 })).then(res => {
-                        if (res.data.state === "1010101")  {
+                        if (res.data.state === "1010101"
+                        ) {
                             this.tip = '登陆成功，请稍等';
                             this.loginTip = 'success';
                             this.loginIn(res.data.token);
                             this.$router.push('/人员信息管理/内部人员信息管理');
-                        }else{
-                            console.log(res.data.msg);
+                        }
+                        else {
                             this.tip = res.data.msg;
                             this.loginTip = 'warn';
                         }

@@ -12,16 +12,24 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 
 const token = Cookies.get('X-Tomee-Token');
+//To determine if token exists or not to commit to the store.
+//It is very important to refresh web page
+if(token){
+    store._actions.loginIn[0](token);
+}
 
 axios.defaults.timeout = 5000;
-//axios.defaults.headers.common['Authorization'] = token;
-//axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+//todo: to resolve the problem if the token is no effect to cancel the request
 
 axios.interceptors.request.use(
     config => {
-        if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+        if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+            //alert('1')
             config.headers.Authorization = `${token}`;
             axios.defaults.headers.common['X-Tomee-Token'] = token;
+        }else {
+            router.push('/login');
         }
         return config;
     },
@@ -45,22 +53,12 @@ const whiteList = ['/login'];// 不重定向白名单
 
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    if (Cookies.get('X-Tomee-Token')) {
-        //axios.defaults.headers['X-Tomee-Token'] = Cookies.get('X-Tomee-Token');
+    if (store.state.token) {
         //alert("用时已超过，请重新登录")
         if (to.path === '/login') {
             next({path: '/人员信息管理/内部人员信息管理'});
         } else {
             next();
-            /*if (to.meta && to.meta.role) {
-             if (hasPermission(store.getters.roles, to.meta.role)) {
-             next();
-             } else {
-             next('/404');
-             }
-             } else {
-             next();
-             }*/
         }
     } else {
         //alert('no token')
